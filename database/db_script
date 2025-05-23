@@ -85,7 +85,7 @@ INSERT INTO categories (name, level) VALUES
 ('Проблемы с БД', '3');
 
 INSERT INTO employees (name, last_name, login, password, department_id) VALUES
-('Сергей', 'Павлов', 'sergey.pavlov', 'dbMaster3', 3);
+('Сергей', 'Павлов', 'sergey.pavlov', 'dbMaster3', 1);
 
 INSERT INTO tickets (id_user, id_category, description, status, creation_dt, id_employee) VALUES
     (1, 1, 'Критически медленные запросы при формировании отчетов в CRM системе.
