@@ -72,3 +72,4 @@ create table history_employee(
     id_employee int,
     foreign key (id_employee) references employees(id) on delete set null
 );
+
