@@ -192,7 +192,7 @@ class Ui_Form(object):
         self.hello_label = QtWidgets.QLabel(parent=Form)
         self.hello_label.setGeometry(QtCore.QRect(40, 40, 411, 71))
         font = QtGui.QFont()
-        font.setFamily("Arial")
+        font.setFamily("XO Tahion")
         font.setPointSize(18)
         font.setBold(True)
         self.hello_label.setFont(font)
