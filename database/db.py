@@ -8,14 +8,15 @@ def get_db_connection():
             user="root",
             password="root",
             database="tech_sub",
-            autocommit = True
+            autocommit=True
         )
         print('Connection ok')
-        conn.close()
+        return conn
 
     except Exception as ex:
-        print('Connection no')
+        print('Connection failed')
         print(ex)
+        return None
 
 
 def test_fun():
