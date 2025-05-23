@@ -16,3 +16,10 @@ def get_db_connection():
     except Exception as ex:
         print('Connection no')
         print(ex)
+
+def test_fun():
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute(...)
+    res = cursor.fetchall()
+    return res
