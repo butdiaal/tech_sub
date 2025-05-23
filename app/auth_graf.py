@@ -57,13 +57,13 @@ class Ui_AuthForm(object):
         self.pushButton_reg_in_auth.setObjectName("pushButton_reg_in_auth")
         self.pushButton_reg_in_auth.setStyleSheet("""
             QPushButton {
-                background-color: #B0884C;
+                background-color: #794E2B;
                 color: white;
                 border-radius: 5px;
                 font-size: 12pt;
             }
             QPushButton:hover {
-                background-color: #794E2B;
+                background-color: #B0884C;
             }
         """)
 
