@@ -1,1 +1,1 @@
-from app.auth where
+from app.auth import *
