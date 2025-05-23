@@ -44,6 +44,7 @@ create table tickets(
     foreign key (id_user) references users(id) on delete set null
 );
 
+
 create table reports(
     id int primary key auto_increment,
     id_ticket int,
