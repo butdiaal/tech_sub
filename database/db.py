@@ -18,9 +18,16 @@ def get_db_connection():
         print(ex)
 
 def test_fun():
-
+    """ТЕСТОВАЯ ФУНКЦИЯ - ШАБЛОН"""
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute(...)
+    res = cursor.fetchall()
+    return res
+
+def select_tickets_user(id):
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""SELECT * FROM tickets WHERE id_user = %s""", (id,))
     res = cursor.fetchall()
     return res
