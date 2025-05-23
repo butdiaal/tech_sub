@@ -11,13 +11,13 @@ class MainWindow(Ui_Form, QtWidgets.QWidget):
         self.setupUi(self)
         # self.windowTitle('Technical Support')
 
-        data_tickets = select_tickets_user('1') #ДОБАВИТЬ СЮДА ПЕРЕДАЧУ ID
+        data_tickets = select_tickets_user('1') #ДОБАВИТЬ СЮДА ПЕРЕДАЧУ ID ВМЕСТО 1
         height = 20
 
         for i in data_tickets:
             lb_info = QtWidgets.QLabel(i)
             lb_info.setGeometry(100, height, 20, 20)
-            lb_info.setText(f'{i[0]}')
+            lb_info.setText(f'{i[3],}')
 
 
 if __name__ == '__main__':

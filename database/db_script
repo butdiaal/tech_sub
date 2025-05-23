@@ -74,3 +74,24 @@ create table history_employee(
     foreign key (id_employee) references employees(id) on delete set null
 );
 
+
+INSERT INTO users (name, last_name, login, password, ph_num) VALUES
+('Диана', 'Бутько', 'diana', md5('diana'), '+79779340549');
+
+INSERT INTO departments (name) VALUES
+('Database Management');
+
+INSERT INTO categories (name, level) VALUES
+('Проблемы с БД', '3');
+
+INSERT INTO employees (name, last_name, login, password, department_id) VALUES
+('Сергей', 'Павлов', 'sergey.pavlov', 'dbMaster3', 3);
+
+INSERT INTO tickets (id_user, id_category, description, status, creation_dt, id_employee) VALUES
+    (1, 1, 'Критически медленные запросы при формировании отчетов в CRM системе.
+    Время выполнения основных запросов увеличилось с 2 секунд до 2-3 минут.
+    Особенно проблема заметна при работе с большими объемами данных
+    (от 10,000 записей). Ошибка возникает ежедневно в пиковые часы нагрузки
+    (10:00-12:00 и 15:00-17:00). В логах появляется предупреждение:
+    "Query execution time exceeded 150000ms".', 'в работе', '2025-05-23 11:45:00', 1);
+
