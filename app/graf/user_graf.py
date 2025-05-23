@@ -186,7 +186,7 @@ class Ui_Form(object):
         self.groupBox = QtWidgets.QGroupBox(parent=Form)
         self.groupBox.setGeometry(QtCore.QRect(40, 120, 641, 381))
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(12)
         self.groupBox.setFont(font)
         self.groupBox.setObjectName("groupBox")
         self.hello_label = QtWidgets.QLabel(parent=Form)
