@@ -28,8 +28,8 @@ create table employees(
 
 create table categorys(
     category_id int primary key auto_increment,
-    name enum(1, 2, 3, 4, 5),
-    level int
+    name varchar(255),
+    level enum(1, 2, 3, 4, 5)
 );
 
 create table tickets(
