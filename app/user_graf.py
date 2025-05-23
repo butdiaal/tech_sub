@@ -203,20 +203,64 @@ class Ui_Form(object):
         font.setPointSize(10)
         self.btn_insert.setFont(font)
         self.btn_insert.setObjectName("btn_insert")
+        self.btn_insert.setStyleSheet("""
+                            QPushButton {
+                                background-color: #794E2B;
+                                color: white;
+                                border-radius: 5px;
+                                font-size: 12pt;
+                            }
+                            QPushButton:hover {
+                                background-color: #B0884C;
+                            }
+                        """)
         self.btn_exit = QtWidgets.QPushButton(parent=Form)
         self.btn_exit.setGeometry(QtCore.QRect(700, 450, 71, 51))
         font = QtGui.QFont()
         font.setPointSize(10)
         self.btn_exit.setFont(font)
         self.btn_exit.setObjectName("btn_exit")
+        self.btn_exit.setStyleSheet("""
+                    QPushButton {
+                        background-color: #794E2B;
+                        color: white;
+                        border-radius: 5px;
+                        font-size: 11pt;
+                    }
+                    QPushButton:hover {
+                        background-color: #B0884C;
+                    }
+                """)
         self.btn_update = QtWidgets.QPushButton(parent=Form)
         self.btn_update.setGeometry(QtCore.QRect(700, 180, 75, 51))
+        self.btn_update.setStyleSheet("""
+                                    QPushButton {
+                                        background-color: #794E2B;
+                                        color: white;
+                                        border-radius: 5px;
+                                        font-size: 11pt;
+                                    }
+                                    QPushButton:hover {
+                                        background-color: #B0884C;
+                                    }
+                                """)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.btn_update.setFont(font)
         self.btn_update.setObjectName("btn_update")
         self.btn_delete = QtWidgets.QPushButton(parent=Form)
         self.btn_delete.setGeometry(QtCore.QRect(700, 240, 75, 51))
+        self.btn_delete.setStyleSheet("""
+                                            QPushButton {
+                                                background-color: #794E2B;
+                                                color: white;
+                                                border-radius: 5px;
+                                                font-size: 11pt;
+                                            }
+                                            QPushButton:hover {
+                                                background-color: #B0884C;
+                                            }
+                                        """)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.btn_delete.setFont(font)
