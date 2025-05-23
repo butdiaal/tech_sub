@@ -1,0 +1,75 @@
+create database tech_sub;
+use tech_sub;
+
+create table departments(
+    id int primary key auto_increment,
+    name varchar(255)
+);
+
+create table users(
+    id int primary key auto_increment,
+    name varchar(255),
+    last_name varchar(255),
+    login varchar(255) unique,
+    password varchar(255),
+    ph_num varchar(255) unique
+);
+
+create table employees(
+    id int primary key auto_increment,
+    name varchar(255),
+    last_name varchar(255),
+    login varchar(255) unique,
+    password varchar(255),
+    department_id int,
+    foreign key (department_id) references departments(id) on delete set null
+);
+
+create table categories(
+    id int primary key auto_increment,
+    name varchar(255),
+    level enum("1", "2", "3", "4", "5")
+);
+
+create table tickets(
+    id int primary key auto_increment,
+    id_user int,
+    id_category int,
+    description varchar(1000),
+    status enum("в ожидании", "в работе", "решена"),
+    creation_dt datetime,
+    id_employee int,
+    foreign key (id_category) references categories(id) on delete set null,
+    foreign key (id_employee) references employees(id) on delete set null,
+    foreign key (id_user) references users(id) on delete set null
+);
+
+create table reports(
+    id int primary key auto_increment,
+    id_ticket int,
+    id_category int,
+    start_dt datetime,
+    finish_dt datetime,
+    desciption varchar(255),
+    empl_l_name varchar(255),
+    answer varchar(255),
+    foreign key (id_ticket) references tickets(id) on delete set null,
+    foreign key (id_category) references categories(id) on delete set null
+);
+
+create table history_tickets(
+    id int primary key auto_increment,
+    message varchar(255),
+    dt_mes datetime,
+    id_ticket int,
+    foreign key (id_ticket) references tickets(id) on delete set null
+);
+
+create table history_employee(
+    id int primary key auto_increment,
+    message varchar(255),
+    dt_mes datetime,
+    id_employee int,
+    foreign key (id_employee) references employees(id) on delete set null
+);
+
