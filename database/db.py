@@ -18,6 +18,7 @@ def get_db_connection():
         print(ex)
 
 def test_fun():
+
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute(...)
