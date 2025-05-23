@@ -54,6 +54,7 @@ class Ui_RegForm(object):
                 border: 1px solid #794E2B;
                 border-radius: 3px;
                 padding: 5px;
+                color: black;
             }
         """)
 
@@ -64,12 +65,15 @@ class Ui_RegForm(object):
         self.lineEdit_reg_number = QtWidgets.QLineEdit(parent=RegForm)
         self.lineEdit_reg_number.setGeometry(QtCore.QRect(20, 160, 361, 35))
         self.lineEdit_reg_number.setObjectName("lineEdit_reg_number")
+        self.lineEdit_reg_number.setInputMask("+7(000)000-00-00")
+        self.lineEdit_reg_number.setPlaceholderText("+7(___)___-__-__")
         self.lineEdit_reg_number.setStyleSheet("""
             QLineEdit {
                 background-color: #F5F0E1;
                 border: 1px solid #794E2B;
                 border-radius: 3px;
                 padding: 5px;
+                color: black;
             }
         """)
 
@@ -86,9 +90,10 @@ class Ui_RegForm(object):
                 border: 1px solid #794E2B;
                 border-radius: 3px;
                 padding: 5px;
+                color: black;
             }
         """)
-        self.lineEdit_reg_pass.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+        self.lineEdit_reg_pass.setEchoMode(QtWidgets.QLineEdit.EchoMode.PasswordEchoOnEdit)
 
         self.pushButton_reg_in = QtWidgets.QPushButton(parent=RegForm)
         self.pushButton_reg_in.setGeometry(QtCore.QRect(120, 290, 161, 41))

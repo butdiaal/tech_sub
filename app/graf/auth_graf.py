@@ -80,6 +80,7 @@ class Ui_AuthForm(object):
                 border: 1px solid #794E2B;
                 border-radius: 3px;
                 padding: 5px;
+                color: black;
             }
         """)
 
@@ -92,9 +93,12 @@ class Ui_AuthForm(object):
                 border: 1px solid #794E2B;
                 border-radius: 3px;
                 padding: 5px;
+                color: black;
             }
         """)
-        self.lineEdit_aut_pass.setEchoMode(QtWidgets.QLineEdit.EchoMode.Password)
+
+
+        self.lineEdit_aut_pass.setEchoMode(QtWidgets.QLineEdit.EchoMode.PasswordEchoOnEdit)
 
         self.label_auth_login = QtWidgets.QLabel(parent=AuthForm)
         self.label_auth_login.setGeometry(QtCore.QRect(20, 60, 121, 21))
