@@ -192,41 +192,96 @@ class Ui_Form(object):
         self.hello_label = QtWidgets.QLabel(parent=Form)
         self.hello_label.setGeometry(QtCore.QRect(40, 40, 411, 71))
         font = QtGui.QFont()
-        font.setFamily("Arial")
-        font.setPointSize(18)
+        font.setFamily("XO Tahion")
+        font.setPointSize(20)
         font.setBold(True)
         self.hello_label.setFont(font)
         self.hello_label.setObjectName("hello_label")
         self.btn_insert = QtWidgets.QPushButton(parent=Form)
         self.btn_insert.setGeometry(QtCore.QRect(570, 50, 211, 51))
+        self.btn_insert.setStyleSheet("""
+                    QPushButton {
+                        background-color: #794E2B;
+                        color: white;
+                        border-radius: 5px;
+                        font-size: 12pt;
+                    }
+                    QPushButton:hover {
+                        background-color: #B0884C;
+                    }
+                """)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.btn_insert.setFont(font)
         self.btn_insert.setObjectName("btn_insert")
         self.btn_exit = QtWidgets.QPushButton(parent=Form)
         self.btn_exit.setGeometry(QtCore.QRect(700, 450, 81, 51))
+        self.btn_exit.setStyleSheet("""
+                            QPushButton {
+                                background-color: #794E2B;
+                                color: white;
+                                border-radius: 5px;
+                                font-size: 10,5pt;
+                            }
+                            QPushButton:hover {
+                                background-color: #B0884C;
+                            }
+                        """)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.btn_exit.setFont(font)
         self.btn_exit.setObjectName("btn_exit")
         self.btn_update = QtWidgets.QPushButton(parent=Form)
         self.btn_update.setGeometry(QtCore.QRect(700, 230, 81, 51))
+        self.btn_update.setStyleSheet("""
+                                    QPushButton {
+                                        background-color: #794E2B;
+                                        color: white;
+                                        border-radius: 5px;
+                                        font-size: 10,5pt;
+                                    }
+                                    QPushButton:hover {
+                                        background-color: #B0884C;
+                                    }
+                                """)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.btn_update.setFont(font)
         self.btn_update.setObjectName("btn_update")
         self.btn_delete = QtWidgets.QPushButton(parent=Form)
         self.btn_delete.setGeometry(QtCore.QRect(700, 290, 81, 51))
+        self.btn_delete.setStyleSheet("""
+                                            QPushButton {
+                                                background-color: #794E2B;
+                                                color: white;
+                                                border-radius: 5px;
+                                                font-size: 10,5pt;
+                                            }
+                                            QPushButton:hover {
+                                                background-color: #B0884C;
+                                            }
+                                        """)
         font = QtGui.QFont()
         font.setPointSize(10)
         self.btn_delete.setFont(font)
         self.btn_delete.setObjectName("btn_delete")
-        self.btn_update_2 = QtWidgets.QPushButton(parent=Form)
-        self.btn_update_2.setGeometry(QtCore.QRect(700, 170, 81, 51))
+        self.btn_watch = QtWidgets.QPushButton(parent=Form)
+        self.btn_watch.setGeometry(QtCore.QRect(700, 170, 81, 51))
+        self.btn_watch.setStyleSheet("""
+                                                   QPushButton {
+                                                       background-color: #794E2B;
+                                                       color: white;
+                                                       border-radius: 5px;
+                                                       font-size: 10,5pt;
+                                                   }
+                                                   QPushButton:hover {
+                                                       background-color: #B0884C;
+                                                   }
+                                               """)
         font = QtGui.QFont()
         font.setPointSize(10)
-        self.btn_update_2.setFont(font)
-        self.btn_update_2.setObjectName("btn_update_2")
+        self.btn_watch.setFont(font)
+        self.btn_watch.setObjectName("btn_watch")
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -242,7 +297,7 @@ class Ui_Form(object):
 "заявку"))
         self.btn_delete.setText(_translate("Form", "Удалить \n"
 "заявку"))
-        self.btn_update_2.setText(_translate("Form", "Посмотреть \n"
+        self.btn_watch.setText(_translate("Form", "Посмотреть \n"
 "заявку"))
 
 
