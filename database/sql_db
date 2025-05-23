@@ -1,5 +1,5 @@
 create database tech_sub;
-
+hhhhhhhhh
 use tech_sub;
 
 create table departments(
