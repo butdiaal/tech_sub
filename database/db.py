@@ -28,10 +28,18 @@ def test_fun():
     return res
 
 
-def select_tickets_user(id):
+def select_tickets_user(id_user):
     """Ищет все заявки пользователя"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("""SELECT * FROM tickets WHERE id_user = %s""", (id,))
+    cursor.execute("""SELECT * FROM tickets WHERE id_user = %s""", (id_user,))
+    res = cursor.fetchall()
+    return res
+
+def delete_ticket(id_ticket, id_user):
+    """Удаляет выбранную заявку, где статус = в ожидании"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""DELETE * FROM tickets WHERE id = %s AND id_user = %s""", (id_ticket, id_user, ))
     res = cursor.fetchall()
     return res

@@ -2,68 +2,144 @@
 Удаление заявки(если статус = В ОЖИДАНИИ),
 Редактирование заявки(если статус = В ОЖИДАНИИ),
 Просмотр заявки(В ОТДЕЛЬНОМ ОКНЕ)"""
-from PyQt6.QtWidgets import QWidget
+from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QWidget, QScrollArea, QButtonGroup
 
 from app.graf.user_graf import *
-from database.db import select_tickets_user
+from database.db import select_tickets_user, delete_ticket
 
 
 class MainWindow(Ui_Form, QtWidgets.QWidget):
     def __init__(self, parent=None):
-        super(MainWindow, self).__init__(parent)
+        super().__init__(parent)
         self.setupUi(self)
-        # self.windowTitle('Technical Support')
-
-        data_tickets = select_tickets_user('1') #ДОБАВИТЬ СЮДА ПЕРЕДАЧУ ID ВМЕСТО 1
-        height = 30
+        self.selected_ticket = None
+        self.selected_ticket_id = None
+        data_tickets = select_tickets_user('1')  # ПЕРЕДАТЬ СЮДА АЙДИ ЮЗЕРА ВМЕСТО 1
         self.content_widget = QtWidgets.QWidget(parent=self.groupBox)
-        self.radio_group = QtWidgets.QButtonGroup(self)
+        self.ticket_frames = []
 
+        scroll = QtWidgets.QScrollArea(self)
+        scroll.setWidgetResizable(True)
+        scroll.setWidget(self.content_widget)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setStyleSheet("""
+            QScrollBar:vertical {
+                border: none;
+                background: #D6D1B2;
+                width: 12px;
+                margin: 0px;
+            }
+            QScrollBar::handle:vertical {
+                background: #B0884C;
+                min-height: 20px;
+                border-radius: 6px;
+            }
+        """)
+
+        self.groupBox.setLayout(QtWidgets.QVBoxLayout())
+        self.groupBox.layout().addWidget(scroll)
+
+        layout = QtWidgets.QVBoxLayout(self.content_widget)
+        layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+        layout.setSpacing(10)
 
         for i in data_tickets:
-
             ticket_frame = QtWidgets.QFrame(self.content_widget)
-            ticket_frame.setGeometry(10, height, 780, 1000)
+            ticket_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
+            ticket_frame.setStyleSheet("""
+                QFrame {
+                    background: #D6D1B2;
+                    border: none;  
+                    border-radius: 5px;
+                    padding: 5px;
+                }
+            """)
+            self.ticket_frames.append(ticket_frame)
 
-            rb = QtWidgets.QRadioButton(ticket_frame)
-            rb.setStyleSheet("""
-                QRadioButton {
-                    border: 5px;
-                    padding: 5px;}
-                QRadioButton::indicator {
-                    width: 0px;
-                    height: 0px;}
-                QRadioButton:checked {
-                    border: 1px solid #250F0B;  
-                    border-radius: 3px;}""")
-            rb.setGeometry(10, 30, 600, 80)
+            ticket_frame.setProperty('ticket_id', i[0])
+            ticket_frame.setObjectName(str(i[0]))
 
-            lb_info = QtWidgets.QLabel(rb)
+            ticket_frame.setCursor(Qt.CursorShape.PointingHandCursor)
+            ticket_frame.mousePressEvent = lambda event, f=ticket_frame, id=i[0]: self.select_ticket(f, id)
+
+            frame_layout = QtWidgets.QVBoxLayout(ticket_frame)
+            frame_layout.setContentsMargins(5, 5, 5, 5)
+
+            lb_info = QtWidgets.QLabel(ticket_frame)
             lb_info.setWordWrap(True)
-            lb_info.setFixedWidth(580)
-            font = QtGui.QFont()
-            font.setPixelSize(11)
-            lb_info.setFont(font)
-            lb_info.setText(f'Текст заявки: {i[3]}, \nСтатус заявки: {i[4]} \nДата и время заявки: {i[5]}')
-            lb_info.adjustSize()
+            lb_info.setText(f'Текст заявки: {i[3]}\nСтатус заявки: {i[4]}\nДата и время заявки: {i[5]}')
 
-            rb.resize(lb_info.width() + 10, lb_info.height() + 10)
+            frame_layout.addWidget(lb_info)
+            layout.addWidget(ticket_frame)
+
+        self.content_widget.setMinimumWidth(620)
+
+        self.btn_insert.clicked.connect(self.add_ticket)
+        self.btn_watch.clicked.connect(self.watch_ticket)
+        self.btn_delete.clicked.connect(self.delete_ticket)
+        self.btn_update.clicked.connect(self.update_ticket)
+        self.btn_exit.clicked.connect(self.exit_window)
+
+    def select_ticket(self, frame, ticket_id):
+        """Выбор заявки по клику на фрейм, доб обводку"""
+        for f in self.ticket_frames:
+            f.setStyleSheet("""
+                QFrame {
+                    background: #D6D1B2;
+                    border: none;
+                    border-radius: 5px;
+                    padding: 5px;
+                }
+            """)
+
+        frame.setStyleSheet("""
+            QFrame {
+                background: #D6D1B2;
+                border: 2px solid #794E28;
+                border-radius: 5px;
+                padding: 5px;
+            }
+        """)
+
+        self.selected_ticket = frame
+        self.selected_ticket_id = ticket_id
+        print("Selected ticket ID:", self.selected_ticket_id)
 
 
     def add_ticket(self):
-        ...
+        """Добавление заявки при нажатии на кнопку написать в поддержку"""
+        pass
+
 
     def watch_ticket(self):
-        ...
+        """Просмотр заявки, открывается дополнительное окно"""
+        if self.selected_ticket_id:
+            print(f"Выбрана заявка с ID: {self.selected_ticket_id}")
+            id = self.selected_ticket_id.objectName()
+
 
     def delete_ticket(self):
-        ...
+        """Удаление заявки, если статус != решено или в работе"""
+        if self.selected_ticket_id:
+            print(f"Выбрана заявка с ID: {self.selected_ticket_id}")
+            id = self.selected_ticket_id.objectName()
+            message = delete_ticket(id)
+            print(f'Удалена заявки с id: {message}')
+
 
     def update_ticket(self):
-        ...
+        """Изменение заявки, если статус != решено или в работе"""
+        if self.selected_ticket_id:
+            print(f"Выбрана заявка с ID: {self.selected_ticket_id}")
+            id = self.selected_ticket_id.objectName()
+
 
     def exit_window(self):
-        ...
+        """Закрытие окна"""
+        self.close()
+
 
 if __name__ == '__main__':
     import sys
