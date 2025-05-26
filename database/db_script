@@ -202,3 +202,4 @@ UPDATE tickets set status = 'в работе', id_employee = 1 where id = 6;
 
 call get_answer_upd_status_ins_reports(3, 'Проблема решена путем создания новых индексов');
 call get_answer_upd_status_ins_reports(6, 'Установлен Kaspersky Endpoint Security');
+
