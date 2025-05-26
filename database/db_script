@@ -23,7 +23,7 @@ create table employees(
     password varchar(255),
     department_id int,
     is_admin boolean default False,
-    foreign key (department_id) references departments(id)
+    foreign key (department_id) references departments(id) on delete set null
 );
 
 create table categories(
@@ -40,9 +40,9 @@ create table tickets(
     status enum("в ожидании", "в работе", "решена"),
     creation_dt datetime,
     id_employee int,
-    foreign key (id_category) references categories(id),
-    foreign key (id_employee) references employees(id),
-    foreign key (id_user) references users(id)
+    foreign key (id_category) references categories(id) on delete set null,
+    foreign key (id_employee) references employees(id) on delete set null,
+    foreign key (id_user) references users(id) on delete set null
 );
 
 create table reports(
@@ -54,7 +54,7 @@ create table reports(
     description varchar(255),
     empl_l_name varchar(255),
     answer varchar(2000),
-    foreign key (id_ticket) references tickets(id)
+    foreign key (id_ticket) references tickets(id) on delete set null
 );
 
 create table history_tickets(
@@ -62,7 +62,7 @@ create table history_tickets(
     message varchar(255),
     dt_mes datetime,
     id_ticket int,
-    foreign key (id_ticket) references tickets(id)
+    foreign key (id_ticket) references tickets(id) on delete set null
 );
 
 create table history_employee(
@@ -70,7 +70,7 @@ create table history_employee(
     message varchar(255),
     dt_mes datetime,
     id_employee int,
-    foreign key (id_employee) references employees(id)
+    foreign key (id_employee) references employees(id) on delete set null
 );
 -- триггер на тикетсы на инсерт
 delimiter //
@@ -83,7 +83,7 @@ create trigger tickets_ins after insert
 delimiter ;
 -- триггер на тикетсы на делит
 delimiter //
-create trigger tickets_dlt after delete
+create trigger tickets_dlt before delete
     on tickets for each row
     BEGIN
     insert into history_tickets (message, dt_mes, id_ticket)
@@ -190,15 +190,15 @@ delimiter ;
 -- Проверка триггера на апдейт на тикетсы, по условию status != 'решена' (else)
 -- ((это обязательно, раскомментьте и вставьте в консоль))
 
--- UPDATE tickets set status = 'в работе', id_employee = 2 where id = 2;
--- UPDATE tickets set status = 'в работе', id_employee = 4 where id = 4;
--- UPDATE tickets set status = 'в работе', id_employee = 2 where id = 7;
--- UPDATE tickets set status = 'в работе', id_employee = 3 where id = 3;
--- UPDATE tickets set status = 'в работе', id_employee = 1 where id = 6;
+UPDATE tickets set status = 'в работе', id_employee = 2 where id = 2;
+UPDATE tickets set status = 'в работе', id_employee = 4 where id = 4;
+UPDATE tickets set status = 'в работе', id_employee = 2 where id = 7;
+UPDATE tickets set status = 'в работе', id_employee = 3 where id = 3;
+UPDATE tickets set status = 'в работе', id_employee = 1 where id = 6;
 
 
 -- Проверка ХП на обновление статуса заявки на "решена" и на заполнение репортсов вместе с ответом,
 -- и работа триггера на апдейт на условии ststus = 'решена' ((это обязательно, раскомментьте и вставьте в консоль))
 
--- call get_answer_upd_status_ins_reports(3, 'Проблема решена путем создания новых индексов');
--- call get_answer_upd_status_ins_reports(6, 'Установлен Kaspersky Endpoint Security');
+call get_answer_upd_status_ins_reports(3, 'Проблема решена путем создания новых индексов');
+call get_answer_upd_status_ins_reports(6, 'Установлен Kaspersky Endpoint Security');
