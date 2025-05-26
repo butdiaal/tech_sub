@@ -1,31 +1,49 @@
 import sys
 from PyQt6 import QtWidgets
-from PyQt6.QtWidgets import QApplication
-from graf.auth_graf import *
-from graf.reg_graf import *
-from graf.admin_graf import *
+from PyQt6.QtWidgets import QMessageBox
+from graf.auth_graf import Ui_AuthForm
+from graf.reg_graf import Ui_RegForm
+from graf.admin_graf import Ui_admin_wind  # Импортируем класс из первого файла
 
 
 class Main:
     def __init__(self):
         self.app = QtWidgets.QApplication(sys.argv)
 
+        # Основные окна
         self.auth_wind = AuthWind(self)
         self.reg_wind = RegWind(self)
-        self.adm_wind = AdmWind(self)
+
+        # Окно администратора будет создаваться при необходимости
+        self.adm_wind = None
 
         self.showAuth()
 
     def showAuth(self):
-        self.reg_wind.hide()
+        """Показать окно авторизации"""
+        if hasattr(self, 'reg_wind') and self.reg_wind:
+            self.reg_wind.hide()
+        if hasattr(self, 'adm_wind') and self.adm_wind:
+            self.adm_wind.hide()
         self.auth_wind.show()
 
     def showReg(self):
+        """Показать окно регистрации"""
         self.auth_wind.hide()
         self.reg_wind.show()
 
     def showAdm(self):
+        """Показать админскую панель"""
         self.auth_wind.hide()
+        if hasattr(self, 'reg_wind') and self.reg_wind:
+            self.reg_wind.hide()
+
+        # Создаем окно только при первом вызове
+        if not self.adm_wind:
+            self.adm_wind = QtWidgets.QWidget()  # Используем QWidget вместо QMainWindow
+            self.ui_adm = Ui_admin_wind()  # Используем правильное имя класса
+            self.ui_adm.setupUi(self.adm_wind)
+
         self.adm_wind.show()
 
 
@@ -37,15 +55,19 @@ class AuthWind(QtWidgets.QWidget):
         self.Auth.setupUi(self)
 
         self.Auth.pushButton_reg_in_auth.clicked.connect(self.main.showReg)
-        self.Auth.pushButton_auth_in.clicked.connect(self.main.showAdm)
+        self.Auth.pushButton_auth_in.clicked.connect(self.check_auth)
 
+    def check_auth(self):
+        """Проверка авторизации"""
+        login = self.Auth.lineEdit_auth_login.text()
+        password = self.Auth.lineEdit_aut_pass.text()
 
-class AdmWind(QtWidgets.QWidget):
-    def __init__(self, mainApp):
-        super().__init__()
-        self.main = mainApp
-        self.Adm = Ui_AdminWindow()
-        self.Adm.setup_ui(self)
+        # Здесь должна быть реальная проверка из БД
+        # Временная заглушка для примера:
+        if login == "admin" and password == "admin":
+            self.main.showAdm()
+        else:
+            QMessageBox.warning(self, "Ошибка", "Неверный логин или пароль")
 
 
 class RegWind(QtWidgets.QWidget):
@@ -56,6 +78,13 @@ class RegWind(QtWidgets.QWidget):
         self.Reg.setupUi(self)
 
         self.Reg.pushButton_reg_in_auth.clicked.connect(self.main.showAuth)
+        self.Reg.pushButton_reg_in.clicked.connect(self.register_user)
+
+    def register_user(self):
+        """Регистрация нового пользователя"""
+        # Здесь должна быть логика регистрации
+        QMessageBox.information(self, "Успех", "Пользователь зарегистрирован")
+        self.main.showAuth()
 
 
 if __name__ == "__main__":
