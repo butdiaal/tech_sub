@@ -1,8 +1,9 @@
 import sys
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QApplication
-from graf.auth_graf import Ui_AuthForm
-from graf.reg_graf import Ui_RegForm
+from graf.auth_graf import *
+from graf.reg_graf import *
+from graf.admin_graf import *
 
 
 class Main:
@@ -11,6 +12,7 @@ class Main:
 
         self.auth_wind = AuthWind(self)
         self.reg_wind = RegWind(self)
+        self.adm_wind = AdmWind(self)
 
         self.showAuth()
 
@@ -22,6 +24,10 @@ class Main:
         self.auth_wind.hide()
         self.reg_wind.show()
 
+    def showAdm(self):
+        self.auth_wind.hide()
+        self.adm_wind.show()
+
 
 class AuthWind(QtWidgets.QWidget):
     def __init__(self, mainApp):
@@ -31,16 +37,25 @@ class AuthWind(QtWidgets.QWidget):
         self.Auth.setupUi(self)
 
         self.Auth.pushButton_reg_in_auth.clicked.connect(self.main.showReg)
+        self.Auth.pushButton_auth_in.clicked.connect(self.main.showAdm)
+
+
+class AdmWind(QtWidgets.QWidget):
+    def __init__(self, mainApp):
+        super().__init__()
+        self.main = mainApp
+        self.Adm = Ui_AdminWindow()
+        self.Adm.setup_ui(self)
 
 
 class RegWind(QtWidgets.QWidget):
     def __init__(self, mainApp):
         super().__init__()
         self.main = mainApp
-        self.Auth = Ui_RegForm()
-        self.Auth.setupUi(self)
+        self.Reg = Ui_RegForm()
+        self.Reg.setupUi(self)
 
-        self.Auth.pushButton_reg_in_auth.clicked.connect(self.main.showAuth)
+        self.Reg.pushButton_reg_in_auth.clicked.connect(self.main.showAuth)
 
 
 if __name__ == "__main__":
