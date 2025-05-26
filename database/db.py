@@ -41,6 +41,6 @@ def delete_ticket(id_ticket, id_user):
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute(""" DELETE FROM tickets WHERE id = %s 
-        AND user_id = %s AND status = 'в ожидании'""", (id_ticket, id_user))
+        AND id_user = %s AND status = 'в ожидании'""", (id_ticket, id_user))
     res = cursor.fetchone()
     return res
