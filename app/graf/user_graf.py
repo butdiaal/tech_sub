@@ -9,10 +9,10 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
-    def setupUi(self, Form):
-        Form.setObjectName("Form")
-        Form.resize(811, 536)
+class User_Ui_Form(object):
+    def setupUi(self, User_Form):
+        User_Form.setObjectName("User_Form")
+        User_Form.resize(811, 536)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(37, 15, 11))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
@@ -182,14 +182,14 @@ class Ui_Form(object):
         brush = QtGui.QBrush(QtGui.QColor(107, 105, 89, 127))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.PlaceholderText, brush)
-        Form.setPalette(palette)
-        self.groupBox = QtWidgets.QGroupBox(parent=Form)
+        User_Form.setPalette(palette)
+        self.groupBox = QtWidgets.QGroupBox(parent=User_Form)
         self.groupBox.setGeometry(QtCore.QRect(40, 120, 641, 381))
         font = QtGui.QFont()
-        font.setPointSize(10)
+        font.setPointSize(14)
         self.groupBox.setFont(font)
         self.groupBox.setObjectName("groupBox")
-        self.hello_label = QtWidgets.QLabel(parent=Form)
+        self.hello_label = QtWidgets.QLabel(parent=User_Form)
         self.hello_label.setGeometry(QtCore.QRect(40, 40, 411, 71))
         font = QtGui.QFont()
         font.setFamily("XO Tahion")
@@ -197,7 +197,7 @@ class Ui_Form(object):
         font.setBold(True)
         self.hello_label.setFont(font)
         self.hello_label.setObjectName("hello_label")
-        self.btn_insert = QtWidgets.QPushButton(parent=Form)
+        self.btn_insert = QtWidgets.QPushButton(parent=User_Form)
         self.btn_insert.setGeometry(QtCore.QRect(570, 50, 211, 51))
         self.btn_insert.setStyleSheet("""
                     QPushButton {
@@ -214,7 +214,7 @@ class Ui_Form(object):
         font.setPointSize(10)
         self.btn_insert.setFont(font)
         self.btn_insert.setObjectName("btn_insert")
-        self.btn_exit = QtWidgets.QPushButton(parent=Form)
+        self.btn_exit = QtWidgets.QPushButton(parent=User_Form)
         self.btn_exit.setGeometry(QtCore.QRect(700, 450, 81, 51))
         self.btn_exit.setStyleSheet("""
                             QPushButton {
@@ -231,7 +231,7 @@ class Ui_Form(object):
         font.setPointSize(10)
         self.btn_exit.setFont(font)
         self.btn_exit.setObjectName("btn_exit")
-        self.btn_update = QtWidgets.QPushButton(parent=Form)
+        self.btn_update = QtWidgets.QPushButton(parent=User_Form)
         self.btn_update.setGeometry(QtCore.QRect(700, 230, 81, 51))
         self.btn_update.setStyleSheet("""
                                     QPushButton {
@@ -248,7 +248,7 @@ class Ui_Form(object):
         font.setPointSize(10)
         self.btn_update.setFont(font)
         self.btn_update.setObjectName("btn_update")
-        self.btn_delete = QtWidgets.QPushButton(parent=Form)
+        self.btn_delete = QtWidgets.QPushButton(parent=User_Form)
         self.btn_delete.setGeometry(QtCore.QRect(700, 290, 81, 51))
         self.btn_delete.setStyleSheet("""
                                             QPushButton {
@@ -265,7 +265,7 @@ class Ui_Form(object):
         font.setPointSize(10)
         self.btn_delete.setFont(font)
         self.btn_delete.setObjectName("btn_delete")
-        self.btn_watch = QtWidgets.QPushButton(parent=Form)
+        self.btn_watch = QtWidgets.QPushButton(parent=User_Form)
         self.btn_watch.setGeometry(QtCore.QRect(700, 170, 81, 51))
         self.btn_watch.setStyleSheet("""
                                                    QPushButton {
@@ -283,29 +283,29 @@ class Ui_Form(object):
         self.btn_watch.setFont(font)
         self.btn_watch.setObjectName("btn_watch")
 
-        self.retranslateUi(Form)
-        QtCore.QMetaObject.connectSlotsByName(Form)
+        self.retranslateUi(User_Form)
+        QtCore.QMetaObject.connectSlotsByName(User_Form)
 
-    def retranslateUi(self, Form):
+    def retranslateUi(self, User_Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Form"))
-        self.groupBox.setTitle(_translate("Form", "Ваши заявки"))
-        self.hello_label.setText(_translate("Form", "Добро пожаловать"))
-        self.btn_insert.setText(_translate("Form", "Написать в поддержку"))
-        self.btn_exit.setText(_translate("Form", "Выйти"))
-        self.btn_update.setText(_translate("Form", "Изменить \n"
+        User_Form.setWindowTitle(_translate("User_Form", "User_Form"))
+        self.groupBox.setTitle(_translate("User_Form", "Ваши заявки"))
+        self.hello_label.setText(_translate("User_Form", "Добро пожаловать"))
+        self.btn_insert.setText(_translate("User_Form", "Написать в поддержку"))
+        self.btn_exit.setText(_translate("User_Form", "Выйти"))
+        self.btn_update.setText(_translate("User_Form", "Изменить \n"
 "заявку"))
-        self.btn_delete.setText(_translate("Form", "Удалить \n"
+        self.btn_delete.setText(_translate("User_Form", "Удалить \n"
 "заявку"))
-        self.btn_watch.setText(_translate("Form", "Посмотреть \n"
+        self.btn_watch.setText(_translate("User_Form", "Посмотреть \n"
 "заявку"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    Form = QtWidgets.QWidget()
-    ui = Ui_Form()
-    ui.setupUi(Form)
-    Form.show()
+    User_Form = QtWidgets.QWidget()
+    ui = User_Ui_Form()
+    ui.setupUi(User_Form)
+    User_Form.show()
     sys.exit(app.exec())

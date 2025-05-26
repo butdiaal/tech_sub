@@ -48,7 +48,7 @@ create table tickets(
 create table reports(
     id int primary key auto_increment,
     id_ticket int,
-    category varchar(255),
+    category varchar(255), 
     start_dt datetime,
     finish_dt datetime,
     description varchar(255),
@@ -69,18 +69,18 @@ create table history_employee(
     id int primary key auto_increment,
     message varchar(255),
     dt_mes datetime,
-    id_employee int,
+    id_employee int, 
     foreign key (id_employee) references employees(id) on delete set null
 );
 -- триггер на тикетсы на инсерт
 delimiter //
 create trigger tickets_ins after insert
-    on tickets for each row
+    on tickets for each row 
     BEGIN
     insert into history_tickets (message, dt_mes, id_ticket)
     values (concat('Добавлена заявка'), now(), new.id);
     END //
-delimiter ;
+delimiter ; 
 -- триггер на тикетсы на делит
 delimiter //
 create trigger tickets_dlt after delete
@@ -94,11 +94,11 @@ delimiter ;
 delimiter //
 create trigger tickets_upd
 after update on tickets for each row
-BEGIN
-if new.status = 'решена' then
+BEGIN 
+if new.status = 'решена' then 
     insert into history_tickets (message, dt_mes, id_ticket)
     values (concat('Получен ответ на заявку. Заявка решена'), now(), old.id);
-else
+else 
     insert into history_tickets (message, dt_mes, id_ticket)
     values (concat('Статус заявки изменен на ', new.status, '. Заявку взял сотрудник с ID ', new.id_employee), now(), old.id);
 end if;
@@ -112,45 +112,45 @@ BEGIN
     IF NEW.is_admin != OLD.is_admin THEN
         insert into history_employee (message, dt_mes, id_employee)
         values (
-            concat('Роль сотрудника ', old.name, ' ', old.last_name, ' c ID ', old.id,
-            ' была изменена. Новый статус: ',
-            IF(new.is_admin, 'администратор', 'обычный сотрудник')),
-            now(),
+            concat('Роль сотрудника ', old.name, ' ', old.last_name, ' c ID ', old.id, 
+            ' была изменена. Новый статус: ', 
+            IF(new.is_admin, 'администратор', 'обычный сотрудник')), 
+            now(), 
             old.id
         );
     END IF;
 END //
 delimiter ;
 
-INSERT INTO categories (name, level) VALUES
+INSERT INTO categories (name, level) VALUES 
     ('Проблемы с ПО', '1'),
     ('Сетевые проблемы', '2'),
     ('Проблемы с БД', '3'),
     ('Разработка', '4'),
     ('Аппаратные проблемы', '5');
 
-INSERT INTO users (name, last_name, login, password, ph_num) VALUES
+INSERT INTO users (name, last_name, login, password, ph_num) VALUES 
     ('Иван', 'Петров', 'ivan.petrov', MD5('pass123'), '+77071234567'),
     ('Елена', 'Сидорова', 'elena.sidorova', MD5('qwerty456'), '+77072345678'),
     ('Алексей', 'Кузнецов', 'alex.kuznetsov', MD5('alex789'), '+77073456789'),
     ('Ольга', 'Иванова', 'olga.ivanova', MD5('olga2023'), '+77074567890'),
     ('Дмитрий', 'Смирнов', 'dmitry.smirnov', MD5('smirnovD'), '+77075678901');
 
-INSERT INTO departments (name) VALUES
+INSERT INTO departments (name) VALUES 
     ('IT Support'),
     ('Network Administration'),
     ('Database Management'),
     ('Software Development'),
     ('Hardware Maintenance');
 
-INSERT INTO employees (name, last_name, login, password, department_id) VALUES
+INSERT INTO employees (name, last_name, login, password, department_id) VALUES 
     ('Андрей', 'Васильев', 'andrey.vasiliev', MD5('techSupp1'), 1),
     ('Мария', 'Федорова', 'maria.fedorova', MD5('netAdmin2'), 2),
     ('Сергей', 'Павлов', 'sergey.pavlov', MD5('dbMaster3'), 3),
     ('Наталья', 'Козлова', 'nataly.kozlova', MD5('devProg4'), 4),
     ('Артем', 'Николаев', 'artem.nikolaev', MD5('hwExpert5'), 5);
 
-INSERT INTO tickets (id_user, id_category, description, status, creation_dt) VALUES
+INSERT INTO tickets (id_user, id_category, description, status, creation_dt) VALUES 
     (1, 1, 'Не запускается Microsoft Office', 'в ожидании', now()),
     (2, 2, 'Нет доступа к корпоративной сети', 'в ожидании', now()),
     (3, 3, 'Медленные запросы к базе данных', 'в ожидании', now()),
@@ -165,7 +165,7 @@ select * from reports;
 select * from history_tickets;
 select * from employees;
 -- создание сотрудника и изменение роли на админа
-insert into employees (name, last_name, login, password, department_id, is_admin)
+insert into employees (name, last_name, login, password, department_id, is_admin) 
     values ('Петр', 'Петров', 'admin', MD5('admin'), 1, False);
 select * from employees;
 update employees set is_admin = True where id = 6;
@@ -179,15 +179,15 @@ delimiter //
 create procedure get_answer_upd_status_ins_reports (in ticket_id_in int, in answer_in varchar(2000))
 BEGIN
 UPDATE tickets set status = 'решена' where id = ticket_id_in;
-insert into reports (id_ticket, category, start_dt, finish_dt, description, empl_l_name, answer)
+insert into reports (id_ticket, category, start_dt, finish_dt, description, empl_l_name, answer) 
 SELECT t.id, c.name, creation_dt, now(), t.description, concat(e.name, ' ', e.last_name), answer_in
-FROM tickets t join categories c on t.id_category = c.id
+FROM tickets t join categories c on t.id_category = c.id 
 join employees e on t.id_employee = e.id where t.id = ticket_id_in;
 END //
 delimiter ;
 
 
--- Проверка триггера на апдейт на тикетсы, по условию status != 'решена' (else)
+-- Проверка триггера на апдейт на тикетсы, по условию status != 'решена' (else) 
 -- ((это обязательно, раскомментьте и вставьте в консоль))
 
 -- UPDATE tickets set status = 'в работе', id_employee = 2 where id = 2;
@@ -197,7 +197,7 @@ delimiter ;
 -- UPDATE tickets set status = 'в работе', id_employee = 1 where id = 6;
 
 
--- Проверка ХП на обновление статуса заявки на "решена" и на заполнение репортсов вместе с ответом,
+-- Проверка ХП на обновление статуса заявки на "решена" и на заполнение репортсов вместе с ответом, 
 -- и работа триггера на апдейт на условии ststus = 'решена' ((это обязательно, раскомментьте и вставьте в консоль))
 
 -- call get_answer_upd_status_ins_reports(3, 'Проблема решена путем создания новых индексов');

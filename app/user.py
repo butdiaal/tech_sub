@@ -3,20 +3,28 @@
 Редактирование заявки(если статус = В ОЖИДАНИИ),
 Просмотр заявки(В ОТДЕЛЬНОМ ОКНЕ)"""
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QWidget, QScrollArea, QButtonGroup
+from PyQt6.QtWidgets import QWidget, QScrollArea, QButtonGroup, QMessageBox
 
 from app.graf.user_graf import *
 from database.db import select_tickets_user, delete_ticket
 
 
-class MainWindow(Ui_Form, QtWidgets.QWidget):
-    def __init__(self, parent=None):
+class MainWindow(User_Ui_Form, QtWidgets.QWidget):
+    def __init__(self, parent=None, user_id=1):
         super().__init__(parent)
         self.setupUi(self)
         self.selected_ticket = None
         self.selected_ticket_id = None
-        data_tickets = select_tickets_user('1')  # ПЕРЕДАТЬ СЮДА АЙДИ ЮЗЕРА ВМЕСТО 1
+        self.user_id = user_id
+        load_tickets = select_tickets_user(user_id)  # ПЕРЕДАТЬ СЮДА АЙДИ ЮЗЕРА ВМЕСТО 1
         self.content_widget = QtWidgets.QWidget(parent=self.groupBox)
+        self.content_widget.setStyleSheet("""
+            QGroupBox {
+                background-color: #D6D1B2;
+                border: none;
+                border-radius: 5px;
+            }
+        """)
         self.ticket_frames = []
 
         scroll = QtWidgets.QScrollArea(self)
@@ -45,7 +53,7 @@ class MainWindow(Ui_Form, QtWidgets.QWidget):
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         layout.setSpacing(10)
 
-        for i in data_tickets:
+        for i in load_tickets:
             ticket_frame = QtWidgets.QFrame(self.content_widget)
             ticket_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
             ticket_frame.setStyleSheet("""
@@ -105,7 +113,7 @@ class MainWindow(Ui_Form, QtWidgets.QWidget):
 
         self.selected_ticket = frame
         self.selected_ticket_id = ticket_id
-        print("Selected ticket ID:", self.selected_ticket_id)
+        print("Выбрана заявка с ID:", self.selected_ticket_id)
 
 
     def add_ticket(self):
@@ -116,17 +124,28 @@ class MainWindow(Ui_Form, QtWidgets.QWidget):
     def watch_ticket(self):
         """Просмотр заявки, открывается дополнительное окно"""
         if self.selected_ticket_id:
-            print(f"Выбрана заявка с ID: {self.selected_ticket_id}")
             id = self.selected_ticket_id.objectName()
 
 
     def delete_ticket(self):
         """Удаление заявки, если статус != решено или в работе"""
-        if self.selected_ticket_id:
-            print(f"Выбрана заявка с ID: {self.selected_ticket_id}")
-            id = self.selected_ticket_id.objectName()
-            message = delete_ticket(id)
-            print(f'Удалена заявки с id: {message}')
+        reply = QMessageBox.question( self, 'Подтверждение',
+            'Вы уверены, что хотите удалить эту заявку?',
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+
+        id_ticket = self.selected_ticket_id
+        id_user = self.user_id
+
+        if reply == QMessageBox.StandardButton.Yes:
+            if delete_ticket(id_ticket, id_user):
+                QMessageBox.information(self, "Успех", "Заявка удалена")
+                select_tickets_user(self.user_id)
+                self.selected_ticket_id = None
+            else:
+                QMessageBox.warning(
+                    self, "Ошибка",
+                    "Не удалось удалить заявку (возможно, статус изменился)"
+                )
 
 
     def update_ticket(self):
