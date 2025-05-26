@@ -23,7 +23,7 @@ create table employees(
     password varchar(255),
     department_id int,
     is_admin boolean default False,
-    foreign key (department_id) references departments(id) on delete set null
+    foreign key (department_id) references departments(id)
 );
 
 create table categories(
@@ -40,9 +40,9 @@ create table tickets(
     status enum("в ожидании", "в работе", "решена"),
     creation_dt datetime,
     id_employee int,
-    foreign key (id_category) references categories(id) on delete set null,
-    foreign key (id_employee) references employees(id) on delete set null,
-    foreign key (id_user) references users(id) on delete set null
+    foreign key (id_category) references categories(id),
+    foreign key (id_employee) references employees(id),
+    foreign key (id_user) references users(id)
 );
 
 create table reports(
@@ -54,7 +54,7 @@ create table reports(
     description varchar(255),
     empl_l_name varchar(255),
     answer varchar(2000),
-    foreign key (id_ticket) references tickets(id) on delete set null
+    foreign key (id_ticket) references tickets(id)
 );
 
 create table history_tickets(
@@ -62,7 +62,7 @@ create table history_tickets(
     message varchar(255),
     dt_mes datetime,
     id_ticket int,
-    foreign key (id_ticket) references tickets(id) on delete set null
+    foreign key (id_ticket) references tickets(id)
 );
 
 create table history_employee(
@@ -70,7 +70,7 @@ create table history_employee(
     message varchar(255),
     dt_mes datetime,
     id_employee int,
-    foreign key (id_employee) references employees(id) on delete set null
+    foreign key (id_employee) references employees(id)
 );
 -- триггер на тикетсы на инсерт
 delimiter //
