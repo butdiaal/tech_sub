@@ -1,3 +1,165 @@
+create database tech_sub;
+use tech_sub;
+
+create table departments(
+    id int primary key auto_increment,
+    name varchar(255)
+);
+
+create table users(
+    id int primary key auto_increment,
+    name varchar(255),
+    last_name varchar(255),
+    login varchar(255) unique,
+    password varchar(255),
+    ph_num varchar(255) unique
+);
+
+create table employees(
+    id int primary key auto_increment,
+    name varchar(255),
+    last_name varchar(255),
+    login varchar(255) unique,
+    password varchar(255),
+    department_id int,
+    is_admin boolean default False,
+    foreign key (department_id) references departments(id) on delete set null
+);
+
+create table categories(
+    id int primary key auto_increment,
+    name varchar(255),
+    level enum("1", "2", "3", "4", "5")
+);
+
+create table tickets(
+    id int primary key auto_increment,
+    id_user int,
+    id_category int,
+    description varchar(1000),
+    status enum("в ожидании", "в работе", "решена"),
+    creation_dt datetime,
+    id_employee int,
+    foreign key (id_category) references categories(id) on delete set null,
+    foreign key (id_employee) references employees(id) on delete set null,
+    foreign key (id_user) references users(id) on delete set null
+);
+
+create table reports(
+    id int primary key auto_increment,
+    id_ticket int,
+    category varchar(255),
+    start_dt datetime,
+    finish_dt datetime,
+    description varchar(255),
+    empl_l_name varchar(255),
+    answer varchar(2000),
+    foreign key (id_ticket) references tickets(id) on delete set null
+);
+
+create table history_tickets(
+    id int primary key auto_increment,
+    message varchar(255),
+    dt_mes datetime,
+    id_ticket int,
+    foreign key (id_ticket) references tickets(id) on delete set null
+);
+
+create table history_employee(
+    id int primary key auto_increment,
+    message varchar(255),
+    dt_mes datetime,
+    id_employee int,
+    foreign key (id_employee) references employees(id) on delete set null
+);
+-- триггер на тикетсы на инсерт
+delimiter //
+create trigger tickets_ins after insert
+    on tickets for each row
+    BEGIN
+    insert into history_tickets (message, dt_mes, id_ticket)
+    values (concat('Добавлена заявка'), now(), new.id);
+    END //
+delimiter ;
+-- триггер на тикетсы на делит
+delimiter //
+create trigger tickets_dlt after delete
+    on tickets for each row
+    BEGIN
+    insert into history_tickets (message, dt_mes, id_ticket)
+    values (concat('Удалена заявка'), now(), old.id);
+    END //
+delimiter ;
+-- триггер на тикетсы на апдейт
+delimiter //
+create trigger tickets_upd
+after update on tickets for each row
+BEGIN
+if new.status = 'решена' then
+    insert into history_tickets (message, dt_mes, id_ticket)
+    values (concat('Получен ответ на заявку. Заявка решена'), now(), old.id);
+else
+    insert into history_tickets (message, dt_mes, id_ticket)
+    values (concat('Статус заявки изменен на ', new.status, '. Заявку взял сотрудник с ID ', new.id_employee), now(), old.id);
+end if;
+END //
+delimiter ;
+-- триггер на имплои на смену роли (апдейт)
+delimiter //
+create trigger employee_upd after UPDATE
+on employees for each row
+BEGIN
+    IF NEW.is_admin != OLD.is_admin THEN
+        insert into history_employee (message, dt_mes, id_employee)
+        values (
+            concat('Роль сотрудника ', old.name, ' ', old.last_name, ' c ID ', old.id,
+            ' была изменена. Новый статус: ',
+            IF(new.is_admin, 'администратор', 'обычный сотрудник')),
+            now(),
+            old.id
+        );
+    END IF;
+END //
+delimiter ;
+
+INSERT INTO categories (name, level) VALUES
+    ('Проблемы с ПО', '1'),
+    ('Сетевые проблемы', '2'),
+    ('Проблемы с БД', '3'),
+    ('Разработка', '4'),
+    ('Аппаратные проблемы', '5');
+
+INSERT INTO users (name, last_name, login, password, ph_num) VALUES
+    ('Иван', 'Петров', 'ivan.petrov', MD5('pass123'), '+77071234567'),
+    ('Елена', 'Сидорова', 'elena.sidorova', MD5('qwerty456'), '+77072345678'),
+    ('Алексей', 'Кузнецов', 'alex.kuznetsov', MD5('alex789'), '+77073456789'),
+    ('Ольга', 'Иванова', 'olga.ivanova', MD5('olga2023'), '+77074567890'),
+    ('Дмитрий', 'Смирнов', 'dmitry.smirnov', MD5('smirnovD'), '+77075678901');
+
+INSERT INTO departments (name) VALUES
+    ('IT Support'),
+    ('Network Administration'),
+    ('Database Management'),
+    ('Software Development'),
+    ('Hardware Maintenance');
+
+INSERT INTO employees (name, last_name, login, password, department_id) VALUES
+    ('Андрей', 'Васильев', 'andrey.vasiliev', MD5('techSupp1'), 1),
+    ('Мария', 'Федорова', 'maria.fedorova', MD5('netAdmin2'), 2),
+    ('Сергей', 'Павлов', 'sergey.pavlov', MD5('dbMaster3'), 3),
+    ('Наталья', 'Козлова', 'nataly.kozlova', MD5('devProg4'), 4),
+    ('Артем', 'Николаев', 'artem.nikolaev', MD5('hwExpert5'), 5);
+
+INSERT INTO tickets (id_user, id_category, description, status, creation_dt) VALUES
+    (1, 1, 'Не запускается Microsoft Office', 'в ожидании', now()),
+    (2, 2, 'Нет доступа к корпоративной сети', 'в ожидании', now()),
+    (3, 3, 'Медленные запросы к базе данных', 'в ожидании', now()),
+    (4, 4, 'Требуется доработка интерфейса', 'в ожидании', now()),
+    (5, 5, 'Не работает принтер в отделе', 'в ожидании', now()),
+    (1, 1, 'Требуется установка антивируса', 'в ожидании', now()),
+    (3, 2, 'Проблемы с Wi-Fi соединением', 'в ожидании', now());
+
+
 select * from tickets;
 select * from reports;
 select * from history_tickets;
