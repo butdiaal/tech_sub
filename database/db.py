@@ -41,7 +41,16 @@ def delete_ticket(id_ticket, id_user):
     """Удаляет выбранную заявку, где статус = в ожидании"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute(""" DELETE FROM tickets WHERE id = %s AND user_id = %s 
-        AND status = 'в ожидании'""", (id_ticket, id_user))
-    res = cursor.fetchone()
-    return res
+    try:
+        cursor.execute("""DELETE FROM tickets WHERE id = %s AND id_user = %s 
+            AND status = 'в ожидании'""", (id_ticket, id_user))
+        rows_deleted = cursor.rowcount
+        conn.commit()
+        return rows_deleted > 0
+    except Exception as e:
+        conn.rollback()
+        print(f"Ошибка при удалении заявки: {e}")
+        return False
+    finally:
+        cursor.close()
+        conn.close()

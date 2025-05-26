@@ -3,7 +3,7 @@
 Редактирование заявки(если статус = В ОЖИДАНИИ),
 Просмотр заявки(В ОТДЕЛЬНОМ ОКНЕ)"""
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QWidget, QScrollArea, QButtonGroup, QMessageBox
+from PyQt6.QtWidgets import QMessageBox
 
 from app.graf.user_graf import *
 from database.db import select_tickets_user, delete_ticket
@@ -123,8 +123,7 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
 
     def watch_ticket(self):
         """Просмотр заявки, открывается дополнительное окно"""
-        if self.selected_ticket_id:
-            id = self.selected_ticket_id.objectName()
+        pass
 
 
     def delete_ticket(self):
@@ -141,7 +140,10 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
                 QMessageBox.information(self, "Успех", "Заявка удалена")
                 select_tickets_user(self.user_id)
                 self.selected_ticket_id = None
-            else:
+                self.close()
+                new_window = MainWindow(user_id=self.user_id)
+                new_window.show()
+        else:
                 QMessageBox.warning(
                     self, "Ошибка",
                     "Не удалось удалить заявку (возможно, статус изменился)"
@@ -150,9 +152,7 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
 
     def update_ticket(self):
         """Изменение заявки, если статус != решено или в работе"""
-        if self.selected_ticket_id:
-            print(f"Выбрана заявка с ID: {self.selected_ticket_id}")
-            id = self.selected_ticket_id.objectName()
+        pass
 
 
     def exit_window(self):
