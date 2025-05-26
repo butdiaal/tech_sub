@@ -6,6 +6,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QMessageBox
 
 from app.graf.user_graf import *
+from app.graf.new_ticket_graf import *
 from database.db import select_tickets_user, delete_ticket
 
 
