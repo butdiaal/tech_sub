@@ -6,7 +6,7 @@ from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QMessageBox
 
 from app.graf.user_graf import *
-from app.graf.new_ticket_graf import *
+from app.new_ticket import Supp_Window
 from database.db import select_tickets_user, delete_ticket
 
 
@@ -119,16 +119,17 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
 
     def add_ticket(self):
         """Добавление заявки при нажатии на кнопку написать в поддержку"""
-        pass
+        self.ticket_window = Supp_Window(user_id=self.user_id)
+        self.ticket_window.show()
 
 
     def watch_ticket(self):
-        """Просмотр заявки, открывается дополнительное окно"""
-        pass
+            """Просмотр заявки, открывается дополнительное окно"""
+            pass
 
 
     def delete_ticket(self):
-        """Удаление заявки, если статус != решено или в работе"""
+        """Удаление заявки, если статус = в обработке"""
         reply = QMessageBox.question( self, 'Подтверждение',
             'Вы уверены, что хотите удалить эту заявку?',
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
@@ -145,14 +146,15 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
                 new_window = MainWindow(user_id=self.user_id)
                 new_window.show()
         else:
-                QMessageBox.warning(
-                    self, "Ошибка",
-                    "Не удалось удалить заявку (возможно, статус изменился)"
-                )
+                QMessageBox.warning(self, "Ошибка","Не удалось удалить заявку")
 
 
     def update_ticket(self):
-        """Изменение заявки, если статус != решено или в работе"""
+        """Изменение заявки, если статус = в обработке"""
+        self.close()
+        select_tickets_user(self.user_id)
+        new_window = MainWindow(user_id=self.user_id)
+        new_window.show()
         pass
 
 
