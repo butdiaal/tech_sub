@@ -36,11 +36,12 @@ def select_tickets_user(id_user):
     res = cursor.fetchall()
     return res
 
+
 def delete_ticket(id_ticket, id_user):
     """Удаляет выбранную заявку, где статус = в ожидании"""
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute(""" DELETE FROM tickets WHERE id = %s 
-        AND user_id = %s AND status = 'в ожидании'""", (id_ticket, id_user))
+    cursor.execute(""" DELETE FROM tickets WHERE id = %s AND user_id = %s 
+        AND status = 'в ожидании'""", (id_ticket, id_user))
     res = cursor.fetchone()
     return res
