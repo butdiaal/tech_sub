@@ -13,8 +13,6 @@ class Main:
         # Основные окна
         self.auth_wind = AuthWind(self)
         self.reg_wind = RegWind(self)
-
-        # Окно администратора будет создаваться при необходимости
         self.adm_wind = None
 
         self.showAuth()
@@ -35,14 +33,9 @@ class Main:
     def showAdm(self):
         """Показать админскую панель"""
         self.auth_wind.hide()
-        if hasattr(self, 'reg_wind') and self.reg_wind:
-            self.reg_wind.hide()
-
-        # Создаем окно только при первом вызове
-        if not self.adm_wind:
-            self.adm_wind = QtWidgets.QWidget()  # Используем QWidget вместо QMainWindow
-            self.ui_adm = Ui_admin_wind()  # Используем правильное имя класса
-            self.ui_adm.setupUi(self.adm_wind)
+        self.adm_wind = QtWidgets.QWidget()
+        self.ui_adm = Ui_admin_wind()
+        self.ui_adm.setupUi(self.adm_wind)
 
         self.adm_wind.show()
 
@@ -62,8 +55,6 @@ class AuthWind(QtWidgets.QWidget):
         login = self.Auth.lineEdit_auth_login.text()
         password = self.Auth.lineEdit_aut_pass.text()
 
-        # Здесь должна быть реальная проверка из БД
-        # Временная заглушка для примера:
         if login == "admin" and password == "admin":
             self.main.showAdm()
         else:
