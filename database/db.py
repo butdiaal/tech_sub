@@ -1,5 +1,6 @@
 import MySQLdb as mdb
 
+
 def get_db_connection():
     """Создает соединение с базой данных."""
     try:
@@ -56,28 +57,39 @@ def delete_ticket(id_ticket, id_user):
         conn.close()
 
 
-def select_categories():
-    """Ищет все категории"""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    cursor.execute("""SELECT * FROM categories """, ())
-    res = cursor.fetchall()
-    return res
+def get_user_id(username):
+    """Получает id пользователя"""
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    sql_statement_get_user_id = f"SELECT user_id FROM users WHERE username='{username}'"
+    cursor.execute(sql_statement_get_user_id)
+    res = cursor.fetchone()
+    connection.close()
+    if res is not None:
+        return res[0]
+    else:
+        return None
 
 
-def add_new_ticket(id_user, id_categ, desc):
-    """Добавляет новую заявку"""
-    conn = get_db_connection()
-    cursor = conn.cursor()
-    try:
-        cursor.execute("""INSERT INTO tickets (id_user, id_category, description, status, creation_dt) 
-            VALUES (%s, %s, %s, 'в ожидании', now())""", (id_user, id_categ, desc, ))
-        rows_add = cursor.rowcount
-        conn.commit()
-        return rows_add > 0
-    except Exception as e:
-        print(f"Ошибка при добавлении заявки: {e}")
-        return False
-    finally:
-        cursor.close()
-        conn.close()
+def get_user(username, password):
+    """Получаем логин и пароль"""
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    sql_statement_get_user_id = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
+    cursor.execute(sql_statement_get_user_id)
+    user = cursor.fetchone()
+    connection.close()
+    return user
+
+
+def create_user(username, password, role):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    sql_statement_test_user = (
+        "INSERT OR IGNORE INTO users "
+        "(username, password, role) "
+        f"VALUES ('{username}', '{password}', '{role}')"
+    )
+    cursor.execute(sql_statement_test_user)
+    connection.commit()
+    connection.close()
