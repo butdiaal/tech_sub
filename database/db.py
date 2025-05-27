@@ -54,3 +54,30 @@ def delete_ticket(id_ticket, id_user):
     finally:
         cursor.close()
         conn.close()
+
+
+def select_categories():
+    """Ищет все категории"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""SELECT * FROM categories """, ())
+    res = cursor.fetchall()
+    return res
+
+
+def add_new_ticket(id_user, id_categ, desc):
+    """Добавляет новую заявку"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""INSERT INTO tickets (id_user, id_category, description, status, creation_dt) 
+            VALUES (%s, %s, %s, 'в ожидании', now())""", (id_user, id_categ, desc, ))
+        rows_add = cursor.rowcount
+        conn.commit()
+        return rows_add > 0
+    except Exception as e:
+        print(f"Ошибка при добавлении заявки: {e}")
+        return False
+    finally:
+        cursor.close()
+        conn.close()

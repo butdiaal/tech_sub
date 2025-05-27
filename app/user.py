@@ -14,10 +14,18 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
     def __init__(self, parent=None, user_id=1):
         super().__init__(parent)
         self.setupUi(self)
+        self.user_id = user_id
+        self.init_ui()
+
+    def init_ui(self):
+        """Инициализация интерфейса"""
         self.selected_ticket = None
         self.selected_ticket_id = None
-        self.user_id = user_id
-        load_tickets = select_tickets_user(user_id)  # ПЕРЕДАТЬ СЮДА АЙДИ ЮЗЕРА ВМЕСТО 1
+        self.load_tickets = select_tickets_user(self.user_id)
+
+        if hasattr(self, 'content_widget'):
+            self.content_widget.deleteLater()
+
         self.content_widget = QtWidgets.QWidget(parent=self.groupBox)
         self.content_widget.setStyleSheet("""
             QGroupBox {
@@ -47,6 +55,9 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
             }
         """)
 
+        if self.groupBox.layout():
+            QtWidgets.QWidget().setLayout(self.groupBox.layout())
+
         self.groupBox.setLayout(QtWidgets.QVBoxLayout())
         self.groupBox.layout().addWidget(scroll)
 
@@ -54,7 +65,7 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
         layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         layout.setSpacing(10)
 
-        for i in load_tickets:
+        for i in self.load_tickets:
             ticket_frame = QtWidgets.QFrame(self.content_widget)
             ticket_frame.setFrameShape(QtWidgets.QFrame.Shape.StyledPanel)
             ticket_frame.setStyleSheet("""
@@ -91,6 +102,7 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
         self.btn_update.clicked.connect(self.update_ticket)
         self.btn_exit.clicked.connect(self.exit_window)
 
+
     def select_ticket(self, frame, ticket_id):
         """Выбор заявки по клику на фрейм, доб обводку"""
         for f in self.ticket_frames:
@@ -118,14 +130,16 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
 
 
     def add_ticket(self):
-        """Добавление заявки при нажатии на кнопку написать в поддержку"""
+        """Добавление заявки с последующим обновлением"""
         self.ticket_window = Supp_Window(user_id=self.user_id)
+        self.ticket_window.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
+        self.ticket_window.destroyed.connect(self.init_ui)
         self.ticket_window.show()
 
 
     def watch_ticket(self):
-            """Просмотр заявки, открывается дополнительное окно"""
-            pass
+        """Просмотр заявки, открывается дополнительное окно"""
+        pass
 
 
     def delete_ticket(self):
@@ -142,19 +156,14 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
                 QMessageBox.information(self, "Успех", "Заявка удалена")
                 select_tickets_user(self.user_id)
                 self.selected_ticket_id = None
-                self.close()
-                new_window = MainWindow(user_id=self.user_id)
-                new_window.show()
+                self.init_ui()
         else:
                 QMessageBox.warning(self, "Ошибка","Не удалось удалить заявку")
 
 
     def update_ticket(self):
         """Изменение заявки, если статус = в обработке"""
-        self.close()
-        select_tickets_user(self.user_id)
-        new_window = MainWindow(user_id=self.user_id)
-        new_window.show()
+        self.init_ui()
         pass
 
 
