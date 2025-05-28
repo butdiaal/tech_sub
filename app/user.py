@@ -12,7 +12,7 @@ from app.update_ticket import Update_Window
 from database.db import select_tickets_user, delete_ticket, select_status
 
 
-class MainWindow(User_Ui_Form, QtWidgets.QWidget):
+class User_Window(User_Ui_Form, QtWidgets.QWidget):
     def __init__(self, parent=None, user_id=None):
         super().__init__(parent)
         self.setupUi(self)
@@ -197,6 +197,6 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
 if __name__ == '__main__':
     import sys
     app = QtWidgets.QApplication(sys.argv)
-    wind = MainWindow()
+    wind = User_Window()
     wind.show()
     sys.exit(app.exec())
