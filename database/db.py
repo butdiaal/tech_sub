@@ -94,7 +94,7 @@ def select_for_watch(id_ticket):
         return None
     status = status_result[0]
 
-    if status == "в ожидании":
+    if status == "в ожидании" or "в работе":
         cursor.execute("""SELECT cat.name, tks.description, tks.status, tks.creation_dt, 
             CONCAT('отсуствует') as finish_dt, CONCAT('отсуствует') as answer
             FROM tickets AS tks 
@@ -102,7 +102,7 @@ def select_for_watch(id_ticket):
             WHERE tks.id = %s""", (id_ticket,))
         res = cursor.fetchall()
         return res
-    else:
+    elif status == "решена":
         cursor.execute("""SELECT reports.category, reports.description, tickets.status, 
             reports.start_dt, reports.finish_dt, reports.answer
             FROM reports
@@ -158,6 +158,16 @@ def update_ticket(id_ticket, id_categ, desc):
     finally:
         cursor.close()
         conn.close()
+
+
+def select_status(id_ticket):
+    """Ищет статус заявки"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("""SELECT status FROM tickets WHERE id = %s""", (id_ticket,))
+    res = cursor.fetchone()
+    conn.close()
+    return res[0] if res else None
 
 
 def get_user_id(username):
