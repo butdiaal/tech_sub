@@ -1,5 +1,10 @@
 from PyQt6.QtWidgets import QMessageBox
-from PyQt6.QtCore import Qt
+import sys
+from PyQt6 import QtWidgets
+from PyQt6.QtWidgets import QMessageBox
+from graf.auth_graf import Ui_AuthForm
+from graf.reg_graf import Ui_RegForm
+from graf.admin_graf import Ui_admin_wind
 import database.db as db
 import main  # Импортируем ваш основной модуль
 
@@ -15,27 +20,36 @@ class AuthController:
         password = self.auth_window.Auth.lineEdit_aut_pass.text().strip()
 
         user = db.get_user(login, password)
+        main.global_user_id = user[0]
 
-        if user is None:
-            QMessageBox.critical(
-                self.auth_window,
-                "Ошибка авторизации",
-                "Неверный логин или пароль.",
-                QMessageBox.StandardButton.Ok
-            )
-        else:
-            main.global_user_id = user[0]
+        if user[3] == 'admin':
+            self.main_app.showAdm()
+        # Сначала проверяем таблицу employees (сотрудники и админы)
+        employee = db.get_employee(login, password)
+        main.global_employee_id = employee[0]
+        if employee and employee['password'] == password:
+            main.global_user_id = employee['id']
 
-            if user[3] == 'admin':
-                self.main_app.showAdm()
+            if employee['is_admin']:
+                self.main_app.showAdm()  # Открываем админ-панель
             else:
-                QMessageBox.information(
-                    self.auth_window,
-                    "Успешная авторизация",
-                    f"Добро пожаловать, {login}!",
-                    QMessageBox.StandardButton.Ok
-                )
+                self.main_app.showEmployeeWindow()  # Открываем рабочее окно сотрудника
+            return
 
+        # Если не сотрудник, проверяем таблицу users (обычные пользователи)
+        user = db.get_user(login, password)
+        if user:
+            main.global_user_id = user['id']
+            self.main_app.showUserWindow()  # Открываем пользовательское окно
+            return
+
+        # Если не нашли нигде
+        QMessageBox.critical(
+            self.auth_window,
+            "Ошибка авторизации",
+            "Неверный логин или пароль.",
+            QMessageBox.StandardButton.Ok
+        )
 
 class RegController:
     def __init__(self, reg_window, main_app):
@@ -89,3 +103,41 @@ class RegController:
                 )
 
                 self.main_app.showAuth()
+
+
+class AuthWind(QtWidgets.QWidget):
+    def __init__(self, mainApp):
+        super().__init__()
+        self.main = mainApp
+        self.Auth = Ui_AuthForm()
+        self.Auth.setupUi(self)
+
+        self.Auth.pushButton_reg_in_auth.clicked.connect(self.main.showReg)
+        self.Auth.pushButton_auth_in.clicked.connect(self.check_auth)
+
+    def check_auth(self):
+        """Проверка авторизации"""
+        login = self.Auth.lineEdit_auth_login.text()
+        password = self.Auth.lineEdit_aut_pass.text()
+
+        if login == "admin" and password == "admin":
+            self.main.showAdm()
+        else:
+            QMessageBox.warning(self, "Ошибка", "Неверный логин или пароль")
+
+
+class RegWind(QtWidgets.QWidget):
+    def __init__(self, mainApp):
+        super().__init__()
+        self.main = mainApp
+        self.Reg = Ui_RegForm()
+        self.Reg.setupUi(self)
+
+        self.Reg.pushButton_reg_in_auth.clicked.connect(self.main.showAuth)
+        self.Reg.pushButton_reg_in.clicked.connect(self.register_user)
+
+    def register_user(self):
+        """Регистрация нового пользователя"""
+        # Здесь должна быть логика регистрации
+        QMessageBox.information(self, "Успех", "Пользователь зарегистрирован")
+        self.main.showAuth()
