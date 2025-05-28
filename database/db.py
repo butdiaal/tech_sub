@@ -72,7 +72,7 @@ def add_new_ticket(id_user, id_categ, desc):
     cursor = conn.cursor()
     try:
         cursor.execute("""INSERT INTO tickets (id_user, id_category, description, status, creation_dt) 
-            VALUES (%s, %s, %s, 'в ожидании', now())""", (id_user, id_categ, desc, ))
+            VALUES (%s, %s, %s, 'в ожидании', now())""", (id_user, id_categ, desc,))
         rows_add = cursor.rowcount
         conn.commit()
         return rows_add > 0
@@ -174,11 +174,22 @@ def get_user_id(username):
         return None
 
 
-def get_user(username, password):
+def get_user(login, password):
     """Получаем логин и пароль"""
     connection = get_db_connection()
     cursor = connection.cursor()
-    sql_statement_get_user_id = f"SELECT * FROM users WHERE username='{username}' AND password='{password}'"
+    sql_statement_get_user_id = f"SELECT * FROM users WHERE login='{login}' AND password='{password}'"
+    cursor.execute(sql_statement_get_user_id)
+    user = cursor.fetchone()
+    connection.close()
+    return user
+
+
+def get_employee(login, password):
+    """Получаем логин и пароль"""
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    sql_statement_get_user_id = f"SELECT * FROM employees WHERE login='{login}' AND password='{password}'"
     cursor.execute(sql_statement_get_user_id)
     user = cursor.fetchone()
     connection.close()
