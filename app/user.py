@@ -13,7 +13,7 @@ from database.db import select_tickets_user, delete_ticket, select_status
 
 
 class MainWindow(User_Ui_Form, QtWidgets.QWidget):
-    def __init__(self, parent=None, user_id=1):
+    def __init__(self, parent=None, user_id=None):
         super().__init__(parent)
         self.setupUi(self)
         self.user_id = user_id
