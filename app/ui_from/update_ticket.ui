@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Wch_Form</class>
- <widget class="QWidget" name="Wch_Form">
+ <class>Update_Form</class>
+ <widget class="QWidget" name="Update_Form">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>836</width>
+    <width>509</width>
     <height>536</height>
    </rect>
   </property>
@@ -527,10 +527,10 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QLabel" name="label_watch">
+  <widget class="QLabel" name="label_update">
    <property name="geometry">
     <rect>
-     <x>80</x>
+     <x>130</x>
      <y>0</y>
      <width>371</width>
      <height>81</height>
@@ -543,22 +543,22 @@
     </font>
    </property>
    <property name="text">
-    <string>Просмотр заявки</string>
+    <string>Изменение заявки</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="grBox_new">
+  <widget class="QGroupBox" name="grBox_upt">
    <property name="geometry">
     <rect>
      <x>30</x>
-     <y>70</y>
-     <width>781</width>
-     <height>401</height>
+     <y>60</y>
+     <width>451</width>
+     <height>411</height>
     </rect>
    </property>
    <property name="title">
     <string/>
    </property>
-   <widget class="QLabel" name="lb_titlie_ticket">
+   <widget class="QLabel" name="lb_ticket">
     <property name="geometry">
      <rect>
       <x>10</x>
@@ -570,220 +570,28 @@
     <property name="font">
      <font>
       <pointsize>10</pointsize>
-      <bold>false</bold>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>Текст заявки:</string>
+     <string>Введите текст заявки для изменения:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="lb_title_categ">
+   <widget class="QLineEdit" name="desc_lineEdit">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>0</y>
-      <width>331</width>
-      <height>31</height>
+      <y>100</y>
+      <width>431</width>
+      <height>301</height>
      </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Категория причины вашей заявки:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lb_title_date1">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>320</y>
-      <width>271</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Дата отправки заявки:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lb_title_answer">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>70</y>
-      <width>271</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Текст ответа на заявку:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lb_title_date2">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>320</y>
-      <width>271</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>10</pointsize>
-      <bold>false</bold>
-     </font>
-    </property>
-    <property name="text">
-     <string>Дата окончания заявки:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lb_answer">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>110</y>
-      <width>361</width>
-      <height>211</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Пробный текст для ответа</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lb_desc">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>110</y>
-      <width>361</width>
-      <height>211</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Пробный текст для описания </string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
     </property>
    </widget>
    <widget class="QLabel" name="lb_categ">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
-      <width>551</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Пробный текст для категории</string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lb_startdt">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>350</y>
-      <width>361</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Пробный текст для даты начала</string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lb_enddt">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>350</y>
-      <width>361</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Пробный текст для даты конца</string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-    </property>
-   </widget>
-   <widget class="QLabel" name="lb_title_categ_2">
-    <property name="geometry">
-     <rect>
-      <x>410</x>
-      <y>0</y>
+      <y>10</y>
       <width>331</width>
       <height>31</height>
      </rect>
@@ -791,47 +599,30 @@
     <property name="font">
      <font>
       <pointsize>10</pointsize>
-      <bold>false</bold>
+      <bold>true</bold>
      </font>
     </property>
     <property name="text">
-     <string>Статус заявки:</string>
+     <string>Выберите категорию вашей заявки для изменения:</string>
     </property>
    </widget>
-   <widget class="QLabel" name="lb_categ_2">
-    <property name="enabled">
-     <bool>true</bool>
-    </property>
+   <widget class="QComboBox" name="cbBox_upt">
     <property name="geometry">
      <rect>
-      <x>410</x>
-      <y>30</y>
-      <width>551</width>
+      <x>10</x>
+      <y>40</y>
+      <width>431</width>
       <height>31</height>
      </rect>
     </property>
-    <property name="font">
-     <font>
-      <pointsize>8</pointsize>
-     </font>
-    </property>
-    <property name="text">
-     <string>Пробный текст для статуса</string>
-    </property>
-    <property name="scaledContents">
-     <bool>false</bool>
-    </property>
-    <property name="textInteractionFlags">
-     <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-    </property>
    </widget>
   </widget>
-  <widget class="QPushButton" name="btn_exit">
+  <widget class="QPushButton" name="update_ticket">
    <property name="geometry">
     <rect>
-     <x>630</x>
+     <x>130</x>
      <y>480</y>
-     <width>141</width>
+     <width>231</width>
      <height>41</height>
     </rect>
    </property>
@@ -842,7 +633,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Закрыть</string>
+    <string>Изменить заявку</string>
    </property>
   </widget>
  </widget>

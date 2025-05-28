@@ -7,6 +7,8 @@ from PyQt6.QtWidgets import QMessageBox
 
 from app.graf.user_graf import *
 from app.new_ticket import Supp_Window
+from app.watch_ticket import Watch_Window
+from app.update_ticket import Update_Window
 from database.db import select_tickets_user, delete_ticket
 
 
@@ -139,7 +141,16 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
 
     def watch_ticket(self):
         """Просмотр заявки, открывается дополнительное окно"""
-        pass
+        if not self.selected_ticket_id:
+            QMessageBox.warning(self, "Ошибка", "Выберите заявку для просмотра")
+            return
+        else:
+            id_ticket = self.selected_ticket_id
+
+            self.wch_window = Watch_Window(id_ticket=id_ticket)
+            self.wch_window.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
+            self.wch_window.destroyed.connect(self.init_ui)
+            self.wch_window.show()
 
 
     def delete_ticket(self):
@@ -163,8 +174,16 @@ class MainWindow(User_Ui_Form, QtWidgets.QWidget):
 
     def update_ticket(self):
         """Изменение заявки, если статус = в обработке"""
-        self.init_ui()
-        pass
+        if not self.selected_ticket_id:
+            QMessageBox.warning(self, "Ошибка", "Выберите заявку для изменения")
+            return
+        else:
+            id_ticket = self.selected_ticket_id
+
+            self.wch_window = Update_Window(id_ticket=id_ticket)
+            self.wch_window.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
+            self.wch_window.destroyed.connect(self.init_ui)
+            self.wch_window.show()
 
 
     def exit_window(self):

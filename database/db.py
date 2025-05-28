@@ -84,6 +84,82 @@ def add_new_ticket(id_user, id_categ, desc):
         conn.close()
 
 
+def select_for_watch(id_ticket):
+    """Ищет все про заявку"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    cursor.execute("SELECT status FROM tickets WHERE id = %s", (id_ticket,))
+    status_result = cursor.fetchone()
+    if not status_result:
+        return None
+    status = status_result[0]
+
+    if status == "в ожидании":
+        cursor.execute("""SELECT cat.name, tks.description, tks.status, tks.creation_dt, 
+            CONCAT('отсуствует') as finish_dt, CONCAT('отсуствует') as answer
+            FROM tickets AS tks 
+            JOIN categories AS cat ON cat.id = tks.id_category
+            WHERE tks.id = %s""", (id_ticket,))
+        res = cursor.fetchall()
+        return res
+    else:
+        cursor.execute("""SELECT reports.category, reports.description, tickets.status, 
+            reports.start_dt, reports.finish_dt, reports.answer
+            FROM reports
+            JOIN tickets ON tickets.id = reports.id_ticket
+            WHERE id_ticket = %s""", (id_ticket,))
+        res = cursor.fetchall()
+        return res
+
+
+def select_ticket(id_ticket):
+    """Ищет заявку по id"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        # Проверяем статус заявки
+        cursor.execute("SELECT status FROM tickets WHERE id = %s", (id_ticket,))
+        status_result = cursor.fetchone()
+        if not status_result:
+            return None
+        status = status_result[0]
+
+        if status == "в ожидании":
+            cursor.execute("""
+                SELECT categories.name, tickets.description 
+                FROM tickets
+                JOIN categories ON categories.id = tickets.id_category
+                WHERE tickets.id = %s
+            """, (id_ticket,))
+            return cursor.fetchone()
+        else:
+            return None
+    except Exception as e:
+        print(f"Ошибка при получении заявки: {e}")
+        return None
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def update_ticket(id_ticket, id_categ, desc):
+    """Изменяет заявку"""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("""UPDATE tickets SET id_category = %s, description = %s 
+                WHERE id = %s""", (id_categ, desc, id_ticket, ))
+        rows_add = cursor.rowcount
+        conn.commit()
+        return rows_add > 0
+    except Exception as e:
+        print(f"Ошибка при изменении заявки: {e}")
+        return False
+    finally:
+        cursor.close()
+        conn.close()
+
+
 def get_user_id(username):
     """Получает id пользователя"""
     connection = get_db_connection()
