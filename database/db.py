@@ -7,7 +7,7 @@ def get_db_connection():
         conn = mdb.connect(
             host="localhost",
             user="root",
-            password="",
+            password="root",
             database="tech_sub",
             autocommit=True
         )
@@ -170,11 +170,25 @@ def select_status(id_ticket):
     return res[0] if res else None
 
 
-def get_user_id(username):
+def get_user_id(login):
     """Получает id пользователя"""
     connection = get_db_connection()
     cursor = connection.cursor()
-    sql_statement_get_user_id = f"SELECT user_id FROM users WHERE username='{username}'"
+    sql_statement_get_user_id = f"SELECT id FROM users WHERE login='{login}'"
+    cursor.execute(sql_statement_get_user_id)
+    res = cursor.fetchone()
+    connection.close()
+    if res is not None:
+        return res[0]
+    else:
+        return None
+
+
+def get_employees_id(login):
+    """Получает id пользователя"""
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    sql_statement_get_user_id = f"SELECT id FROM employees WHERE login='{login}'"
     cursor.execute(sql_statement_get_user_id)
     res = cursor.fetchone()
     connection.close()
@@ -188,7 +202,7 @@ def get_user(login, password):
     """Получаем логин и пароль"""
     connection = get_db_connection()
     cursor = connection.cursor()
-    sql_statement_get_user_id = f"SELECT * FROM users WHERE login='{login}' AND password='{password}'"
+    sql_statement_get_user_id = f"SELECT * FROM employees WHERE login='{login}' AND password='{password}'"
     cursor.execute(sql_statement_get_user_id)
     user = cursor.fetchone()
     connection.close()
