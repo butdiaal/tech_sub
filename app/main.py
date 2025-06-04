@@ -4,7 +4,10 @@ from PyQt6.QtWidgets import QMessageBox
 from graf.auth_graf import Ui_AuthForm
 from graf.reg_graf import Ui_RegForm
 from graf.admin_graf import Ui_admin_wind
+from graf.employee_graf import Ui_Employee
+from graf.user_graf import User_Ui_Form
 import auth
+
 
 class Main:
     def __init__(self):
@@ -19,6 +22,7 @@ class Main:
 
     def showAuth(self):
         """Показать окно авторизации"""
+        self.auth_wind.hide()
         self.auth_wind.show()
 
     def showReg(self):
@@ -35,6 +39,23 @@ class Main:
 
         self.adm_wind.show()
 
+    def showEmp(self):
+        """Показать панель сотрудников"""
+        self.auth_wind.hide()
+        self.emp_wind = QtWidgets.QWidget()
+        self.ui_emp = Ui_Employee()
+        self.ui_emp.setupUi(self.adm_wind)
+
+        self.emp_wind.show()
+
+    def showUser(self):
+        """Показать пользовательскую панель"""
+        self.auth_wind.hide()
+        self.user_wind = QtWidgets.QWidget()
+        self.ui_user = User_Ui_Form()
+        self.ui_user.setupUi(self.adm_wind)
+
+        self.user_wind.show()
 
 
 if __name__ == "__main__":

@@ -127,11 +127,11 @@ class AuthWind(QtWidgets.QWidget):
             if is_admin:
                 self.main.showAdm()
             else:
-                self.main.showEmployeeWindow()
+                self.main.showEmp()
         else:
             user= db.get_user_id(login)
             if user:
-                self.main.showUserWindow()
+                self.main.showUser()
             else:
                 QMessageBox.warning(self, "Ошибка", "Неверный логин или пароль")
 
