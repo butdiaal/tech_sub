@@ -8,49 +8,6 @@ from graf.admin_graf import Ui_admin_wind
 import database.db as db
 import main  # Импортируем ваш основной модуль
 
-
-# class AuthController:
-#     def __init__(self, auth_window, main_app):
-#         self.auth_window = auth_window
-#         self.main_app = main_app
-#
-#     def auth(self):
-#         """Метод авторизации пользователя"""
-#         login = self.auth_window.Auth.lineEdit_auth_login.text().strip()
-#         password = self.auth_window.Auth.lineEdit_aut_pass.text().strip()
-#
-#         user = db.get_user(login, password)
-#         main.global_user_id = user[0]
-#
-#         if user[3] == 'admin':
-#             self.main_app.showAdm()
-#         # Сначала проверяем таблицу employees (сотрудники и админы)
-#         employee = db.get_employee(login, password)
-#         main.global_employee_id = employee[0]
-#         if employee and employee['password'] == password:
-#             main.global_user_id = employee['id']
-#
-#             if employee['is_admin']:
-#                 self.main_app.showAdm()  # Открываем админ-панель
-#             else:
-#                 self.main_app.showEmployeeWindow()  # Открываем рабочее окно сотрудника
-#             return
-#
-#         # Если не сотрудник, проверяем таблицу users (обычные пользователи)
-#         user = db.get_user(login, password)
-#         if user:
-#             main.global_user_id = user['id']
-#             self.main_app.showUserWindow()  # Открываем пользовательское окно
-#             return
-#
-#         # Если не нашли нигде
-#         QMessageBox.critical(
-#             self.auth_window,
-#             "Ошибка авторизации",
-#             "Неверный логин или пароль.",
-#             QMessageBox.StandardButton.Ok
-#         )
-
 class RegController:
     def __init__(self, reg_window, main_app):
         self.reg_window = reg_window
@@ -117,24 +74,26 @@ class AuthWind(QtWidgets.QWidget):
 
     def check_auth(self):
         """Проверка авторизации"""
-        login = self.Auth.lineEdit_auth_login.text()
-        password = self.Auth.lineEdit_aut_pass.text()
+        login = self.Auth.lineEdit_auth_login.text().strip()
+        password = self.Auth.lineEdit_aut_pass.text().strip()
 
-        emp_id = db.get_employees_id(login)
+        # Проверка на пустые поля
+        if not login or not password:
+            QMessageBox.warning(self, "Ошибка", "Логин и пароль не могут быть пустыми")
+            return
 
-        if emp_id:
-            is_admin = emp_id[0]
-            if is_admin:
+        # Проверяем пользователя (включая админов)
+        user = db.get_user(login, password)
+        if user:
+            main.global_user_id = user[0]  # user_id
+            if user[3] == 'admin':  # role
                 self.main.showAdm()
             else:
-                self.main.showEmp()
-        else:
-            user= db.get_user_id(login)
-            if user:
                 self.main.showUser()
-            else:
-                QMessageBox.warning(self, "Ошибка", "Неверный логин или пароль")
+            return
 
+        # Если не нашли
+        QMessageBox.warning(self, "Ошибка", "Неверный логин или пароль")
 
 
 class RegWind(QtWidgets.QWidget):

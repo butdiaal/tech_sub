@@ -148,7 +148,7 @@ def update_ticket(id_ticket, id_categ, desc):
     cursor = conn.cursor()
     try:
         cursor.execute("""UPDATE tickets SET id_category = %s, description = %s 
-                WHERE id = %s""", (id_categ, desc, id_ticket, ))
+                WHERE id = %s""", (id_categ, desc, id_ticket,))
         rows_add = cursor.rowcount
         conn.commit()
         return rows_add > 0
@@ -229,5 +229,44 @@ def create_user(username, password, role):
         f"VALUES ('{username}', '{password}', '{role}')"
     )
     cursor.execute(sql_statement_test_user)
+    connection.commit()
+    connection.close()
+
+
+def get_all_users():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    sql_statement_get_all_users = "SELECT id,login, password, name FROM users"
+    cursor.execute(sql_statement_get_all_users)
+    users = cursor.fetchall()
+    connection.close()
+    return users
+
+
+def get_all_employees():
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    sql_statement_get_all_users = "SELECT id,login, password, is_admin name FROM employees"
+    cursor.execute(sql_statement_get_all_users)
+    users = cursor.fetchall()
+    connection.close()
+    return users
+
+
+
+def delete_user(login):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    sql_statement_delete_user = f"DELETE FROM users WHERE login = '{login}'"
+    cursor.execute(sql_statement_delete_user)
+    connection.commit()
+    connection.close()
+
+
+def reset_password(login, password):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    sql_statement_reset_password = f"UPDATE users SET password='{password}' WHERE login='{login}'"
+    cursor.execute(sql_statement_reset_password)
     connection.commit()
     connection.close()
