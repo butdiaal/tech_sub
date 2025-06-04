@@ -253,7 +253,6 @@ def get_all_employees():
     return users
 
 
-
 def delete_user(login):
     connection = get_db_connection()
     cursor = connection.cursor()
@@ -270,3 +269,35 @@ def reset_password(login, password):
     cursor.execute(sql_statement_reset_password)
     connection.commit()
     connection.close()
+
+
+def update_user(user_id, login, password, role):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    try:
+        sql = "UPDATE users SET login = %s, password = %s, role = %s WHERE user_id = %s"
+        cursor.execute(sql, (login, password, role, user_id))
+        connection.commit()
+        return True
+    except Exception as e:
+        print(f"Error updating user: {e}")
+        connection.rollback()
+        return False
+    finally:
+        connection.close()
+
+
+def update_employee(emp_id, login, password, is_admin):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    try:
+        sql = "UPDATE employees SET login = %s, password = %s, is_admin = %s WHERE id = %s"
+        cursor.execute(sql, (login, password, is_admin, emp_id))
+        connection.commit()
+        return True
+    except Exception as e:
+        print(f"Error updating employee: {e}")
+        connection.rollback()
+        return False
+    finally:
+        connection.close()
