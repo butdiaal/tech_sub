@@ -312,6 +312,7 @@ def get_types():
     db = get_db_connection()
     cur = db.cursor()
     cur.execute('select concat(name,", ", level) from categories;')
-    data = cur.fetchone()
+    data = cur.fetchall()
     cur.close()
     return data
+
