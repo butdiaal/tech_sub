@@ -241,14 +241,13 @@ def create_user(login, password, ph_num) :
 def create_user_admin(login, password):
     connection = get_db_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT id FROM users WHERE login = %s", (login,))
+    cursor.execute(f"SELECT id FROM users WHERE login = '{login}'")
     if cursor.fetchone():
         print("Ошибка: пользователь уже существует")
         return False
 
     cursor.execute(
-        "INSERT INTO users (login, password) VALUES (%s, %s)",
-        (login, password)
+        f"INSERT INTO users (login, password) VALUES ('{login}', md5('{password}'));"
     )
 
     connection.commit()
