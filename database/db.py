@@ -230,8 +230,8 @@ def create_user(login, password, ph_num) :
             return False
 
         cursor.execute(
-            "INSERT INTO users (login, password, ph_num) VALUES (%s, %s, %s)",
-            (login, password, ph_num)
+            f"INSERT INTO users (login, password, ph_num) VALUES ('{login}', md5('{password}'), '{ph_num}')",
+
         )
 
         connection.commit()
