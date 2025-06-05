@@ -350,4 +350,12 @@ def get_active_tickets_except_done(): #запрос для вывода данн
     cur.close()
     return data
 
+def take_ticket(id_ticket, id_employee): #на кнопку взять заявку, чтобы статус менялся на в работе и поолучался айди нынешнего имплоии
+    db = get_db_connection()
+    cur = db.cursor()
+    cur.execute(f'''if status = 'в ожидании' then
+                    UPDATE tickets set status = 'в работе', id_employee = {id_employee} where id = {id_ticket};''')
+    cur.close()
+    return
+
 #commitnula
