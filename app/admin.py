@@ -158,6 +158,7 @@ class AdminWindow(QtWidgets.QWidget):
                 }
             """)
 
+
         # Добавляем элементы
         user_fields = QHBoxLayout()
         user_fields.setSpacing(10)
@@ -395,8 +396,7 @@ class AdminWindow(QtWidgets.QWidget):
             return
 
         try:
-            # Передаем пустую строку как ph_num, так как в интерфейсе нет поля для номера телефона
-            success = db.create_user(login, password, "")
+            success = db.create_user_admin(login, password)
             if success:
                 self.update_users_table()
                 self.clear_user_inputs()

@@ -238,6 +238,23 @@ def create_user(login, password, ph_num) :
         return True
 
 
+def create_user_admin(login, password):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT id FROM users WHERE login = %s", (login,))
+    if cursor.fetchone():
+        print("Ошибка: пользователь уже существует")
+        return False
+
+    cursor.execute(
+        "INSERT INTO users (login, password) VALUES (%s, %s)",
+        (login, password)
+    )
+
+    connection.commit()
+    return True
+
+
 def get_all_users():
     connection = get_db_connection()
     cursor = connection.cursor()
