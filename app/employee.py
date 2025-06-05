@@ -1,4 +1,4 @@
-from PyQt6 import *
+from PyQt6 import QtWidgets
 from app.graf.employees_graf import *
 import database.db as db
 
@@ -8,50 +8,80 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         super().__init__(parent)
         self.setupUi(self)
         self.employee_id = employee_id
-        # self.init_ui()
 
-        self.layout_types = QtWidgets.QVBoxLayout(self.scrollArea_types)
-        self.layout_status = QtWidgets.QVBoxLayout(self.scrollArea_status)
-        self.layout_tickets = QtWidgets.QVBoxLayout(self.scrollArea_tickets)
+        # Инициализация layout для типов
         self.scroll_widget_types = QtWidgets.QWidget()
         self.layout_types = QtWidgets.QVBoxLayout(self.scroll_widget_types)
         self.scrollArea_types.setWidget(self.scroll_widget_types)
 
-        # Для статусов
+        # Инициализация layout для статусов
         self.scroll_widget_status = QtWidgets.QWidget()
         self.layout_status = QtWidgets.QVBoxLayout(self.scroll_widget_status)
         self.scrollArea_status.setWidget(self.scroll_widget_status)
 
-        # Для тикетов
+        # Инициализация layout для тикетов
         self.scroll_widget_tickets = QtWidgets.QWidget()
         self.layout_tickets = QtWidgets.QVBoxLayout(self.scroll_widget_tickets)
         self.scrollArea_tickets.setWidget(self.scroll_widget_tickets)
 
-        self.scrollArea_types.verticalScrollBar()
-        self.scrollArea_status.verticalScrollBar()
-        self.scrollArea_tickets.verticalScrollBar()
+        # Загрузка типов
+        self.load_types()
 
+        # Загрузка статусов
+        self.load_statuses()
+
+        # Загрузка тикетов
+        self.load_tickets()
+
+    def load_types(self):
         types = db.get_types()
         self.radios_types = []
         if not types:
             print("No types returned from database!")
         else:
             for type_data in types:
-                radio = QtWidgets.QRadioButton(type_data[0])  # Преобразуем в строку на случай если None
+                radio = QtWidgets.QRadioButton(type_data[0])
                 self.layout_types.addWidget(radio)
                 self.radios_types.append(radio)
 
+    def load_statuses(self):
         statuses = db.get_statuses()
         self.radios_statuses = []
         if not statuses:
             print("No statuses returned from database!")
         else:
             for status in statuses:
-                radio = QtWidgets.QRadioButton(status[0])  # Преобразуем в строку на случай если None
+                radio = QtWidgets.QRadioButton(status[0])
                 self.layout_status.addWidget(radio)
                 self.radios_statuses.append(radio)
 
+    def load_tickets(self):
+        tickets = db.get_active_tickets_except_done()
+        if not tickets:
+            print("No active tickets returned from database!")
+            return
 
+        # Создаем таблицу для отображения тикетов
+        self.tickets_table = QtWidgets.QTableWidget()
+        self.tickets_table.setColumnCount(7)  # Количество столбцов соответствует запросу
+        self.tickets_table.setHorizontalHeaderLabels([
+            "ID", "User ID", "Category", "Description",
+            "Status", "Creation Date", "Employee"
+        ])
+
+        # Настраиваем таблицу
+        self.tickets_table.setRowCount(len(tickets))
+        self.tickets_table.horizontalHeader().setStretchLastSection(True)
+        self.tickets_table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+
+        # Заполняем таблицу данными
+        for row_idx, ticket in enumerate(tickets):
+            for col_idx, value in enumerate(ticket):
+                item = QtWidgets.QTableWidgetItem(str(value) if value is not None else "")
+                self.tickets_table.setItem(row_idx, col_idx, item)
+
+        # Добавляем таблицу в layout
+        self.layout_tickets.addWidget(self.tickets_table)
 
 
 if __name__ == "__main__":
