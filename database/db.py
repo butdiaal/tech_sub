@@ -202,7 +202,7 @@ def get_user(login, password):
     """Получаем логин и пароль"""
     connection = get_db_connection()
     cursor = connection.cursor()
-    sql_statement_get_user_id = f"SELECT * FROM employees WHERE login='{login}' AND password='{password}'"
+    sql_statement_get_user_id = f"SELECT * FROM users WHERE login='{login}' AND password=MD5('{password}')"
     cursor.execute(sql_statement_get_user_id)
     user = cursor.fetchone()
     connection.close()
@@ -213,24 +213,29 @@ def get_employee(login, password):
     """Получаем логин и пароль"""
     connection = get_db_connection()
     cursor = connection.cursor()
-    sql_statement_get_user_id = f"SELECT * FROM employees WHERE login='{login}' AND password='{password}'"
+    sql_statement_get_user_id = f"SELECT * FROM employees WHERE login='{login}' AND password=MD5('{password}')"
     cursor.execute(sql_statement_get_user_id)
     user = cursor.fetchone()
     connection.close()
     return user
 
 
-def create_user(username, password, role):
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    sql_statement_test_user = (
-        "INSERT OR IGNORE INTO users "
-        "(username, password, role) "
-        f"VALUES ('{username}', '{password}', '{role}')"
-    )
-    cursor.execute(sql_statement_test_user)
-    connection.commit()
-    connection.close()
+def create_user(username, password, ph_num) :
+
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute("SELECT id FROM users WHERE username = %s", (username,))
+        if cursor.fetchone():
+            print("Ошибка: пользователь уже существует")
+            return False
+
+        cursor.execute(
+            "INSERT INTO users (username, password, ph_num) VALUES (%s, %s, %s)",
+            (username, password, ph_num)
+        )
+
+        connection.commit()
+        return True
 
 
 def get_all_users():

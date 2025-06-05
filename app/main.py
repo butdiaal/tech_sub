@@ -3,8 +3,10 @@ from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QMessageBox
 from graf.auth_graf import Ui_AuthForm
 from graf.reg_graf import Ui_RegForm
-from graf.admin_graf import Ui_admin_wind
-from graf.employee_graf import Ui_Employee
+from admin import AdminWindow
+from user import User_Window
+from employee import Employee_Window
+from graf.employees_graf import Employee_Ui_Form
 from graf.user_graf import User_Ui_Form
 import auth
 
@@ -33,28 +35,19 @@ class Main:
     def showAdm(self):
         """Показать админскую панель"""
         self.auth_wind.hide()
-        self.adm_wind = QtWidgets.QWidget()
-        self.ui_adm = Ui_admin_wind()
-        self.ui_adm.setupUi(self.adm_wind)
-
+        self.adm_wind = AdminWindow()
         self.adm_wind.show()
 
     def showEmp(self):
         """Показать панель сотрудников"""
         self.auth_wind.hide()
-        self.emp_wind = QtWidgets.QWidget()
-        self.ui_emp = Ui_Employee()
-        self.ui_emp.setupUi(self.adm_wind)
-
+        self.emp_wind = Employee_Window()
         self.emp_wind.show()
 
     def showUser(self):
         """Показать пользовательскую панель"""
         self.auth_wind.hide()
-        self.user_wind = QtWidgets.QWidget()
-        self.ui_user = User_Ui_Form()
-        self.ui_user.setupUi(self.adm_wind)
-
+        self.user_wind = User_Window()
         self.user_wind.show()
 
 
