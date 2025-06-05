@@ -12,7 +12,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 class Employee_Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(811, 536)
+        Form.resize(1000, 1000)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(37, 15, 11))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
