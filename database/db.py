@@ -340,4 +340,14 @@ def get_statuses(): #вывод списка статусов в скроллэ�
     cur.close()
     return data
 
+def get_active_tickets_except_done(): #запрос для вывода данных  в интерактивную таблицу
+    db = get_db_connection()
+    cur = db.cursor()
+    cur.execute('''select 
+                t.id, t.id_user, c.name, t.description, t.status, t.creation_dt, concat(e.name , ' ', last_name) as employee
+                from tickets t join categories c on t.id_category = c.id join employees e on t.id_employee = e.id where t.status = 'в ожидании' or t.status = 'в работе';''')
+    data = cur.fetchall()
+    cur.close()
+    return data
+
 #commitnula
