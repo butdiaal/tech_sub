@@ -61,7 +61,7 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
             print("No active tickets returned from database!")
             return
 
-        # Создаем таблицу для отображения тикетов
+        # Создаем таблицу
         self.tickets_table = QtWidgets.QTableWidget()
         self.tickets_table.setColumnCount(7)
         self.tickets_table.setHorizontalHeaderLabels([
@@ -71,24 +71,36 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
 
         # Настройки таблицы
         self.tickets_table.setRowCount(len(tickets))
-        self.tickets_table.horizontalHeader().setStretchLastSection(True)
         self.tickets_table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
 
-        # Создаем шрифт меньшего размера
+        # Уменьшаем шрифт
         font = self.tickets_table.font()
-        font.setPointSize(8)  # Уменьшаем размер шрифта (стандартный обычно 9-12)
+        font.setPointSize(8)
         self.tickets_table.setFont(font)
+        self.tickets_table.horizontalHeader().setFont(font)
 
-        # Также уменьшаем шрифт в заголовках
-        header = self.tickets_table.horizontalHeader()
-        header.setFont(font)
-
-        # Заполняем таблицу данными
+        # Заполняем данные
         for row_idx, ticket in enumerate(tickets):
             for col_idx, value in enumerate(ticket):
                 item = QtWidgets.QTableWidgetItem(str(value) if value is not None else "")
-                item.setFont(font)  # Устанавливаем шрифт для каждой ячейки
+                item.setFont(font)
+
+                # Включаем перенос текста для столбца Description (индекс 3)
+                if col_idx == 3:  # description
+                    item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignLeft | QtCore.Qt.AlignmentFlag.AlignTop)
+                    item.setFlags(item.flags() | QtCore.Qt.ItemFlag.ItemIsAutoTristate)  # разрешаем перенос
                 self.tickets_table.setItem(row_idx, col_idx, item)
+
+        # Настраиваем поведение столбцов
+        self.tickets_table.horizontalHeader().setSectionResizeMode(3,
+                                                                   QtWidgets.QHeaderView.ResizeMode.Stretch)  # description растягивается
+        self.tickets_table.setWordWrap(True)  # включаем перенос слов
+        self.tickets_table.resizeRowsToContents()  # подгоняем высоту строк под текст
+
+        # Остальные столбцы подгоняем по содержимому
+        for col in [0, 1, 2, 4, 5, 6]:  # кроме description (3)
+            self.tickets_table.horizontalHeader().setSectionResizeMode(col,
+                                                                       QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
 
         # Добавляем таблицу в layout
         self.layout_tickets.addWidget(self.tickets_table)
