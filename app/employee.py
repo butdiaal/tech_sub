@@ -63,21 +63,31 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
 
         # Создаем таблицу для отображения тикетов
         self.tickets_table = QtWidgets.QTableWidget()
-        self.tickets_table.setColumnCount(7)  # Количество столбцов соответствует запросу
+        self.tickets_table.setColumnCount(7)
         self.tickets_table.setHorizontalHeaderLabels([
             "ID", "User ID", "Category", "Description",
             "Status", "Creation Date", "Employee"
         ])
 
-        # Настраиваем таблицу
+        # Настройки таблицы
         self.tickets_table.setRowCount(len(tickets))
         self.tickets_table.horizontalHeader().setStretchLastSection(True)
         self.tickets_table.setEditTriggers(QtWidgets.QAbstractItemView.EditTrigger.NoEditTriggers)
+
+        # Создаем шрифт меньшего размера
+        font = self.tickets_table.font()
+        font.setPointSize(8)  # Уменьшаем размер шрифта (стандартный обычно 9-12)
+        self.tickets_table.setFont(font)
+
+        # Также уменьшаем шрифт в заголовках
+        header = self.tickets_table.horizontalHeader()
+        header.setFont(font)
 
         # Заполняем таблицу данными
         for row_idx, ticket in enumerate(tickets):
             for col_idx, value in enumerate(ticket):
                 item = QtWidgets.QTableWidgetItem(str(value) if value is not None else "")
+                item.setFont(font)  # Устанавливаем шрифт для каждой ячейки
                 self.tickets_table.setItem(row_idx, col_idx, item)
 
         # Добавляем таблицу в layout
