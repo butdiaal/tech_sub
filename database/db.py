@@ -311,8 +311,17 @@ def update_employee(emp_id, login, password, is_admin):
 def get_types():
     db = get_db_connection()
     cur = db.cursor()
-    cur.execute('select concat(name,", ", level) from categories;')
+    cur.execute('select concat(name,", приоритет - ", level) from categories;')
     data = cur.fetchall()
     cur.close()
     return data
 
+def get_statuses():
+    db = get_db_connection()
+    cur = db.cursor()
+    cur.execute('select distinct(status) from tickets;')
+    data = cur.fetchall()
+    cur.close()
+    return data
+
+#commitnula
