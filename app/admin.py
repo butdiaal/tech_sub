@@ -429,8 +429,7 @@ class AdminWindow(QtWidgets.QWidget):
 
             # Создаем нового сотрудника
             cursor.execute(
-                "INSERT INTO employees (login, password, is_admin) VALUES (%s, %s, %s)",
-                (login, password, is_admin)
+                f"INSERT INTO employees (login, password, is_admin) VALUES ('{login}', md5('{password}'), {is_admin});"
             )
             connection.commit()
 
