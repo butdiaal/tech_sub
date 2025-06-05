@@ -37,7 +37,8 @@ class RegController:
             )
 
         if login_data_is_correct:
-            user_id = db.get_user_id(login)
+            # Используем функцию из main.py для проверки существования пользователя
+            user_id = main.get_user_id(login)
 
             if user_id is not None:
                 QMessageBox.critical(
@@ -48,6 +49,7 @@ class RegController:
                     QMessageBox.StandardButton.Ok
                 )
             else:
+                # Создаем пользователя с ролью 'user' по умолчанию
                 db.create_user(login, password, 'user')
                 user = db.get_user(login, password)
                 main.global_user_id = user[0]
@@ -82,7 +84,7 @@ class AuthWind(QtWidgets.QWidget):
             QMessageBox.warning(self, "Ошибка", "Логин и пароль не могут быть пустыми")
             return
 
-        # Проверяем пользователя (включая админов)
+        # Сначала проверяем в таблице users
         user = db.get_user(login, password)
         if user:
             main.global_user_id = user[0]  # user_id
@@ -92,7 +94,16 @@ class AuthWind(QtWidgets.QWidget):
                 self.main.showUser()
             return
 
-        # Если не нашли
+        # Если не нашли в users, проверяем в таблице employees
+        employee_id = main.get_employees_id(login)
+        if employee_id:
+            # Здесь можно добавить дополнительную логику для сотрудников
+            QMessageBox.information(self, "Вход", "Вы вошли как сотрудник")
+            main.global_user_id = employee_id
+            self.main.showEmployee()
+            return
+
+        # Если не нашли нигде
         QMessageBox.warning(self, "Ошибка", "Неверный логин или пароль")
 
 
@@ -108,6 +119,19 @@ class RegWind(QtWidgets.QWidget):
 
     def register_user(self):
         """Регистрация нового пользователя"""
-        # Здесь должна быть логика регистрации
+        login = self.Reg.lineEdit_reg_login.text().strip()
+        password = self.Reg.lineEdit_reg_pass.text().strip()
+
+        if not login or not password:
+            QMessageBox.warning(self, "Ошибка", "Логин и пароль не могут быть пустыми")
+            return
+
+        # Используем функцию из main.py для проверки существования пользователя
+        if main.get_user_id(login) is not None:
+            QMessageBox.warning(self, "Ошибка", "Пользователь с таким логином уже существует")
+            return
+
+        # Создаем нового пользователя
+        db.create_user(login, password, 'user')
         QMessageBox.information(self, "Успех", "Пользователь зарегистрирован")
         self.main.showAuth()
