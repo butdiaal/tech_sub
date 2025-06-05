@@ -125,3 +125,5 @@ if __name__ == "__main__":
     win = Employee_Window(employee_id=1)
     win.show()
     sys.exit(app.exec())
+
+#kgbsm
