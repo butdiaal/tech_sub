@@ -358,20 +358,4 @@ def take_ticket(id_ticket, id_employee): #на кнопку взять заяв�
     cur.close()
     return
 
-
-def get_employee_name(employee_id):
-    """Получаем ФИО сотрудника по его ID"""
-    db = get_db_connection()
-    cur = db.cursor()
-    try:
-        cur.execute('''SELECT name || ' ' || last_name 
-                       FROM employees 
-                       WHERE id = %s''', (employee_id,))
-        result = cur.fetchone()
-        return result[0] if result else None
-    except Exception as e:
-        print(f"Error getting employee name: {e}")
-        return None
-    finally:
-        cur.close()
 #commitnula
