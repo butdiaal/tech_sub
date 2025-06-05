@@ -21,6 +21,7 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
             self.radios_types.append(radio_types)
 
 
+
 if __name__ == "__main__":
     import sys
 
