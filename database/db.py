@@ -220,18 +220,18 @@ def get_employee(login, password):
     return user
 
 
-def create_user(username, password, ph_num) :
+def create_user(login, password, ph_num) :
 
         connection = get_db_connection()
         cursor = connection.cursor()
-        cursor.execute("SELECT id FROM users WHERE username = %s", (username,))
+        cursor.execute("SELECT id FROM users WHERE login = %s", (login,))
         if cursor.fetchone():
             print("Ошибка: пользователь уже существует")
             return False
 
         cursor.execute(
-            "INSERT INTO users (username, password, ph_num) VALUES (%s, %s, %s)",
-            (username, password, ph_num)
+            "INSERT INTO users (login, password, ph_num) VALUES (%s, %s, %s)",
+            (login, password, ph_num)
         )
 
         connection.commit()
@@ -241,7 +241,7 @@ def create_user(username, password, ph_num) :
 def get_all_users():
     connection = get_db_connection()
     cursor = connection.cursor()
-    sql_statement_get_all_users = "SELECT id,login, password, name FROM users"
+    sql_statement_get_all_users = "SELECT id,login, password FROM users"
     cursor.execute(sql_statement_get_all_users)
     users = cursor.fetchall()
     connection.close()
@@ -251,7 +251,7 @@ def get_all_users():
 def get_all_employees():
     connection = get_db_connection()
     cursor = connection.cursor()
-    sql_statement_get_all_users = "SELECT id,login, password, is_admin name FROM employees"
+    sql_statement_get_all_users = "SELECT id,login, password, is_admin FROM employees"
     cursor.execute(sql_statement_get_all_users)
     users = cursor.fetchall()
     connection.close()
@@ -276,12 +276,12 @@ def reset_password(login, password):
     connection.close()
 
 
-def update_user(user_id, login, password, role):
+def update_user(user_id, login, password):
     connection = get_db_connection()
     cursor = connection.cursor()
     try:
-        sql = "UPDATE users SET login = %s, password = %s, role = %s WHERE user_id = %s"
-        cursor.execute(sql, (login, password, role, user_id))
+        sql = "UPDATE users SET login = %s, password = %s WHERE user_id = %s"
+        cursor.execute(sql, (login, password,  user_id))
         connection.commit()
         return True
     except Exception as e:

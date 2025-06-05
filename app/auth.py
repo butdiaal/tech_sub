@@ -18,7 +18,7 @@ class RegController:
         """Метод регистрации и авторизации нового пользователя"""
         login = self.reg_window.Reg.lineEdit_reg_login.text().strip()
         password = self.reg_window.Reg.lineEdit_reg_pass.text().strip()
-        phone = self.reg_window.Reg.lineEdit_reg_phone.text().strip()
+        phone = self.reg_window.Reg.lineEdit_reg_number.text().strip()
 
         if not all([login, password, phone]):
             QMessageBox.critical(
