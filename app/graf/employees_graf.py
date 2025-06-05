@@ -7,12 +7,13 @@
 
 
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtCore import Qt
 
 
 class Employee_Ui_Form(object):
-    def setupUi(self, Employee_Ui_Form):
-        Employee_Ui_Form.setObjectName("Employee_Ui_Form")
-        Employee_Ui_Form.resize(866, 536)
+    def setupUi(self, Form):
+        Form.setObjectName("Form")
+        Form.resize(866, 536)
         palette = QtGui.QPalette()
         brush = QtGui.QBrush(QtGui.QColor(37, 15, 11))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
@@ -182,21 +183,21 @@ class Employee_Ui_Form(object):
         brush = QtGui.QBrush(QtGui.QColor(107, 105, 89, 127))
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.PlaceholderText, brush)
-        Employee_Ui_Form.setPalette(palette)
+        Form.setPalette(palette)
         font = QtGui.QFont()
         font.setFamily("XO Tahion")
-        Employee_Ui_Form.setFont(font)
-        self.groupBox_tickets = QtWidgets.QGroupBox(parent=Employee_Ui_Form)
+        Form.setFont(font)
+        self.groupBox_tickets = QtWidgets.QGroupBox(parent=Form)
         self.groupBox_tickets.setGeometry(QtCore.QRect(40, 120, 571, 381))
         font = QtGui.QFont()
         font.setFamily("XO Tahion")
         font.setPointSize(14)
         self.groupBox_tickets.setFont(font)
         self.groupBox_tickets.setObjectName("groupBox_tickets")
-        self.scrollArea_status = QtWidgets.QScrollArea(parent=self.groupBox_tickets)
-        self.scrollArea_status.setGeometry(QtCore.QRect(10, 30, 551, 341))
-        self.scrollArea_status.setWidgetResizable(True)
-        self.scrollArea_status.setObjectName("scrollArea_status")
+        self.scrollArea_tickets = QtWidgets.QScrollArea(parent=self.groupBox_tickets)
+        self.scrollArea_tickets.setGeometry(QtCore.QRect(10, 30, 551, 341))
+        self.scrollArea_tickets.setWidgetResizable(True)
+        self.scrollArea_tickets.setObjectName("scrollArea_tickets")
         self.scrollAreaWidgetContents_4 = QtWidgets.QWidget()
         self.scrollAreaWidgetContents_4.setGeometry(QtCore.QRect(0, 0, 549, 339))
         self.scrollAreaWidgetContents_4.setObjectName("scrollAreaWidgetContents_4")
@@ -204,8 +205,8 @@ class Employee_Ui_Form(object):
         self.verticalScrollBar_tickets.setGeometry(QtCore.QRect(521, 0, 20, 341))
         self.verticalScrollBar_tickets.setOrientation(QtCore.Qt.Orientation.Vertical)
         self.verticalScrollBar_tickets.setObjectName("verticalScrollBar_tickets")
-        self.scrollArea_status.setWidget(self.scrollAreaWidgetContents_4)
-        self.hello_label = QtWidgets.QLabel(parent=Employee_Ui_Form)
+        self.scrollArea_tickets.setWidget(self.scrollAreaWidgetContents_4)
+        self.hello_label = QtWidgets.QLabel(parent=Form)
         self.hello_label.setGeometry(QtCore.QRect(40, 10, 241, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -213,7 +214,7 @@ class Employee_Ui_Form(object):
         font.setBold(True)
         self.hello_label.setFont(font)
         self.hello_label.setObjectName("hello_label")
-        self.answer_bt = QtWidgets.QPushButton(parent=Employee_Ui_Form)
+        self.answer_bt = QtWidgets.QPushButton(parent=Form)
         self.answer_bt.setGeometry(QtCore.QRect(340, 60, 271, 51))
         font = QtGui.QFont()
         font.setFamily("XO Tahion")
@@ -231,14 +232,14 @@ class Employee_Ui_Form(object):
                                                               background-color: #B0884C;
                                                           }
                                                       """)
-        self.take_ticket_bt = QtWidgets.QPushButton(parent=Employee_Ui_Form)
+        self.take_ticket_bt = QtWidgets.QPushButton(parent=Form)
         self.take_ticket_bt.setGeometry(QtCore.QRect(40, 60, 291, 51))
         font = QtGui.QFont()
         font.setFamily("XO Tahion")
         font.setPointSize(10)
         self.take_ticket_bt.setFont(font)
         self.take_ticket_bt.setObjectName("take_ticket_bt")
-        self.take_ticket_bt.setStyleSheet("""
+        self.take_ticket_bt .setStyleSheet("""
                                                           QPushButton {
                                                               background-color: #794E2B;
                                                               color: white;
@@ -249,7 +250,7 @@ class Employee_Ui_Form(object):
                                                               background-color: #B0884C;
                                                           }
                                                       """)
-        self.groupBox_types = QtWidgets.QGroupBox(parent=Employee_Ui_Form)
+        self.groupBox_types = QtWidgets.QGroupBox(parent=Form)
         self.groupBox_types.setGeometry(QtCore.QRect(630, 280, 221, 221))
         self.groupBox_types.setObjectName("groupBox_types")
         self.scrollArea_types = QtWidgets.QScrollArea(parent=self.groupBox_types)
@@ -259,16 +260,20 @@ class Employee_Ui_Form(object):
         self.scrollAreaWidgetContents_6 = QtWidgets.QWidget()
         self.scrollAreaWidgetContents_6.setGeometry(QtCore.QRect(0, 0, 199, 179))
         self.scrollAreaWidgetContents_6.setObjectName("scrollAreaWidgetContents_6")
-        self.verticalScrollBar_types = QtWidgets.QScrollBar(parent=self.scrollAreaWidgetContents_6)
-        self.verticalScrollBar_types.setGeometry(QtCore.QRect(180, 0, 16, 181))
-        self.verticalScrollBar_types.setOrientation(QtCore.Qt.Orientation.Vertical)
-        self.verticalScrollBar_types.setObjectName("verticalScrollBar_types")
-        self.horizontalScrollBar_types = QtWidgets.QScrollBar(parent=self.scrollAreaWidgetContents_6)
-        self.horizontalScrollBar_types.setGeometry(QtCore.QRect(0, 160, 181, 16))
-        self.horizontalScrollBar_types.setOrientation(QtCore.Qt.Orientation.Horizontal)
-        self.horizontalScrollBar_types.setObjectName("horizontalScrollBar_types")
+        self.scrollArea_types.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+        self.scrollArea_types.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
+
+
+        # self.verticalScrollBar_types = QtWidgets.QScrollBar(parent=self.scrollAreaWidgetContents_6)
+        # self.verticalScrollBar_types.setGeometry(QtCore.QRect(180, 0, 16, 181))
+        # self.verticalScrollBar_types.setOrientation(QtCore.Qt.Orientation.Vertical)
+        # self.verticalScrollBar_types.setObjectName("verticalScrollBar_types")
+        # self.horizontalScrollBar_types = QtWidgets.QScrollBar(parent=self.scrollAreaWidgetContents_6)
+        # self.horizontalScrollBar_types.setGeometry(QtCore.QRect(0, 160, 181, 16))
+        # self.horizontalScrollBar_types.setOrientation(QtCore.Qt.Orientation.Horizontal)
+        # self.horizontalScrollBar_types.setObjectName("horizontalScrollBar_types")
         self.scrollArea_types.setWidget(self.scrollAreaWidgetContents_6)
-        self.shown_login_lb = QtWidgets.QLabel(parent=Employee_Ui_Form)
+        self.shown_login_lb = QtWidgets.QLabel(parent=Form)
         self.shown_login_lb.setGeometry(QtCore.QRect(300, 10, 131, 31))
         font = QtGui.QFont()
         font.setFamily("Arial")
@@ -277,34 +282,37 @@ class Employee_Ui_Form(object):
         self.shown_login_lb.setFont(font)
         self.shown_login_lb.setText("")
         self.shown_login_lb.setObjectName("shown_login_lb")
-        self.groupBox_status = QtWidgets.QGroupBox(parent=Employee_Ui_Form)
+        self.groupBox_status = QtWidgets.QGroupBox(parent=Form)
         self.groupBox_status.setGeometry(QtCore.QRect(630, 30, 221, 241))
         self.groupBox_status.setObjectName("groupBox_status")
-        self.scrollArea = QtWidgets.QScrollArea(parent=self.groupBox_status)
-        self.scrollArea.setGeometry(QtCore.QRect(10, 30, 201, 201))
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
+        self.scrollArea_status = QtWidgets.QScrollArea(parent=self.groupBox_status)
+        self.scrollArea_status.setGeometry(QtCore.QRect(10, 30, 201, 201))
+        self.scrollArea_status.setWidgetResizable(True)
+        self.scrollArea_status.setObjectName("scrollArea_status")
         self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
         self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 199, 199))
         self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
+
         self.verticalScrollBar_status = QtWidgets.QScrollBar(parent=self.scrollAreaWidgetContents_5)
         self.verticalScrollBar_status.setGeometry(QtCore.QRect(180, 0, 16, 201))
         self.verticalScrollBar_status.setOrientation(QtCore.Qt.Orientation.Vertical)
         self.verticalScrollBar_status.setObjectName("verticalScrollBar_status")
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents_5)
+        self.scrollArea_status.setWidget(self.scrollAreaWidgetContents_5)
+        self.scrollArea_status.setVisible(True)
 
-        self.retranslateUi(Employee_Ui_Form)
-        QtCore.QMetaObject.connectSlotsByName(Employee_Ui_Form)
 
-    def retranslateUi(self, Employee_Ui_Form):
+        self.retranslateUi(Form)
+        QtCore.QMetaObject.connectSlotsByName(Form)
+
+    def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Employee_Ui_Form.setWindowTitle(_translate("Employee_Ui_Form", "Form"))
-        self.groupBox_tickets.setTitle(_translate("Employee_Ui_Form", "Активные заявки"))
-        self.hello_label.setText(_translate("Employee_Ui_Form", "Добро пожаловать"))
-        self.answer_bt.setText(_translate("Employee_Ui_Form", "Ответить на заявку"))
-        self.take_ticket_bt.setText(_translate("Employee_Ui_Form", "Взять заявку"))
-        self.groupBox_types.setTitle(_translate("Employee_Ui_Form", "Выберите тип:"))
-        self.groupBox_status.setTitle(_translate("Employee_Ui_Form", "Выберите статус:"))
+        Form.setWindowTitle(_translate("Form", "Form"))
+        self.groupBox_tickets.setTitle(_translate("Form", "Активные заявки"))
+        self.hello_label.setText(_translate("Form", "Добро пожаловать"))
+        self.answer_bt.setText(_translate("Form", "Ответить на заявку"))
+        self.take_ticket_bt.setText(_translate("Form", "Взять заявку"))
+        self.groupBox_types.setTitle(_translate("Form", "Выберите тип:"))
+        self.groupBox_status.setTitle(_translate("Form", "Выберите статус:"))
 
 
 if __name__ == "__main__":
