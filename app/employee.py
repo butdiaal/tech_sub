@@ -1,6 +1,6 @@
 from PyQt6 import *
 from app.graf.employees_graf import *
-
+from database.db import *
 
 class Employee_Window(QtWidgets, Employee_Ui_Form):
     def __init__(self, parent=None, employee_id = None):
@@ -11,6 +11,10 @@ class Employee_Window(QtWidgets, Employee_Ui_Form):
 
         self.layout_types = QtWidgets.QVBoxLayout(self.groupBox_types)
         self.layout_status = QtWidgets.QVBoxLayout(self.groupBox_status)
+
+
+        types =
+        for type in types:
 
 
 
