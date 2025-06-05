@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 
 
-class Ui_Form(object):
+class Employee_Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(811, 536)
@@ -183,13 +183,12 @@ class Ui_Form(object):
         brush.setStyle(QtCore.Qt.BrushStyle.SolidPattern)
         palette.setBrush(QtGui.QPalette.ColorGroup.Disabled, QtGui.QPalette.ColorRole.PlaceholderText, brush)
         Form.setPalette(palette)
-        self.groupBox_ticketks = QtWidgets.QGroupBox(parent=Form)
-        self.groupBox_ticketks.setGeometry(QtCore.QRect(40, 120, 571, 381))
+        self.groupBox_tickets = QtWidgets.QGroupBox(parent=Form)
+        self.groupBox_tickets.setGeometry(QtCore.QRect(40, 120, 571, 381))
         font = QtGui.QFont()
         font.setPointSize(11)
-        self.groupBox_ticketks.setFont(font)
-        self.groupBox_ticketks.setObjectName("groupBox_ticketks")
-
+        self.groupBox_tickets.setFont(font)
+        self.groupBox_tickets.setObjectName("groupBox_tickets")
         self.hello_label = QtWidgets.QLabel(parent=Form)
         self.hello_label.setGeometry(QtCore.QRect(40, 40, 241, 71))
         font = QtGui.QFont()
@@ -198,7 +197,6 @@ class Ui_Form(object):
         font.setBold(True)
         self.hello_label.setFont(font)
         self.hello_label.setObjectName("hello_label")
-
         self.answer_bt = QtWidgets.QPushButton(parent=Form)
         self.answer_bt.setGeometry(QtCore.QRect(570, 50, 211, 51))
         font = QtGui.QFont()
@@ -206,16 +204,16 @@ class Ui_Form(object):
         self.answer_bt.setFont(font)
         self.answer_bt.setObjectName("answer_bt")
         self.answer_bt.setStyleSheet("""
-                            QPushButton {
-                                background-color: #794E2B;
-                                color: white;
-                                border-radius: 5px;
-                                font-size: 12pt;
-                            }
-                            QPushButton:hover {
-                                background-color: #B0884C;
-                            }
-                        """)
+                                    QPushButton {
+                                        background-color: #794E2B;
+                                        color: white;
+                                        border-radius: 5px;
+                                        font-size: 12pt;
+                                    }
+                                    QPushButton:hover {
+                                        background-color: #B0884C;
+                                    }
+                                """)
 
         self.take_ticket_bt = QtWidgets.QPushButton(parent=Form)
         self.take_ticket_bt.setGeometry(QtCore.QRect(470, 50, 81, 51))
@@ -224,25 +222,23 @@ class Ui_Form(object):
         self.take_ticket_bt.setFont(font)
         self.take_ticket_bt.setObjectName("take_ticket_bt")
         self.take_ticket_bt.setStyleSheet("""
-                            QPushButton {
-                                background-color: #794E2B;
-                                color: white;
-                                border-radius: 5px;
-                                font-size: 12pt;
-                            }
-                            QPushButton:hover {
-                                background-color: #B0884C;
-                            }
-                        """)
+                                    QPushButton {
+                                        background-color: #794E2B;
+                                        color: white;
+                                        border-radius: 5px;
+                                        font-size: 12pt;
+                                    }
+                                    QPushButton:hover {
+                                        background-color: #B0884C;
+                                    }
+                                """)
 
+        self.groupBox_status = QtWidgets.QGroupBox(parent=Form)
+        self.groupBox_status.setGeometry(QtCore.QRect(630, 130, 151, 141))
+        self.groupBox_status.setObjectName("groupBox_status")
         self.groupBox_types = QtWidgets.QGroupBox(parent=Form)
-        self.groupBox_types.setGeometry(QtCore.QRect(630, 130, 151, 141))
+        self.groupBox_types.setGeometry(QtCore.QRect(630, 280, 151, 221))
         self.groupBox_types.setObjectName("groupBox_types")
-
-        self.groupBox = QtWidgets.QGroupBox(parent=Form)
-        self.groupBox.setGeometry(QtCore.QRect(630, 280, 151, 221))
-        self.groupBox.setObjectName("groupBox")
-
         self.shown_login_lb = QtWidgets.QLabel(parent=Form)
         self.shown_login_lb.setGeometry(QtCore.QRect(300, 60, 131, 31))
         font = QtGui.QFont()
@@ -259,20 +255,20 @@ class Ui_Form(object):
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
         Form.setWindowTitle(_translate("Form", "Form"))
-        self.groupBox_ticketks.setTitle(_translate("Form", "Активные заявки"))
+        self.groupBox_tickets.setTitle(_translate("Form", "Активные заявки"))
         self.hello_label.setText(_translate("Form", "Добро пожаловать"))
         self.answer_bt.setText(_translate("Form", "Ответить на заявку"))
         self.take_ticket_bt.setText(_translate("Form", "Взять \n"
 "заявку"))
-        self.groupBox_types.setTitle(_translate("Form", "Выберите статус:"))
-        self.groupBox.setTitle(_translate("Form", "Выберите тип:"))
+        self.groupBox_status.setTitle(_translate("Form", "Выберите статус:"))
+        self.groupBox_types.setTitle(_translate("Form", "Выберите тип:"))
 
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
-    ui = Ui_Form()
+    ui = Employee_Ui_Form()
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec())

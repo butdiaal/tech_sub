@@ -527,7 +527,7 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QGroupBox" name="groupBox_ticketks">
+  <widget class="QGroupBox" name="groupBox_tickets">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -602,7 +602,7 @@
 заявку</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox_types">
+  <widget class="QGroupBox" name="groupBox_status">
    <property name="geometry">
     <rect>
      <x>630</x>
@@ -615,7 +615,7 @@
     <string>Выберите статус:</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox">
+  <widget class="QGroupBox" name="groupBox_types">
    <property name="geometry">
     <rect>
      <x>630</x>
