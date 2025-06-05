@@ -351,25 +351,31 @@ def get_statuses():  # вывод списка статусов в скролл�
     return data
 
 
-def get_active_tickets_except_done():  # запрос для вывода данных  в интерактивную таблицу
+def get_active_tickets_except_done():
     db = get_db_connection()
     cur = db.cursor()
-    cur.execute('''select 
-                t.id, t.id_user, c.name, t.description, t.status, t.creation_dt, concat(e.name , ' ', last_name) as employee
-                from tickets t join categories c on t.id_category = c.id join employees e on t.id_employee = e.id where t.status = 'в ожидании' or t.status = 'в работе';''')
+    cur.execute('''SELECT t.id, t.id_user, c.name, t.description, 
+                  t.status, t.creation_dt, t.id_employee
+                  FROM tickets t 
+                  JOIN categories c ON t.id_category = c.id
+                  WHERE t.status IN ('в ожидании', 'в работе')''')
     data = cur.fetchall()
     cur.close()
     return data
 
-
-def take_ticket(id_ticket,
-                id_employee):  # на кнопку взять заявку, чтобы статус менялся на в работе и поолучался айди нынешнего имплоии
+def get_active_tickets_except_done():
+    """Возвращает все активные заявки кроме завершённых"""
     db = get_db_connection()
     cur = db.cursor()
-    cur.execute(f'''if status = 'в ожидании' then
-                    UPDATE tickets set status = 'в работе', id_employee = {id_employee} where id = {id_ticket};''')
+    cur.execute('''SELECT 
+                    t.id, t.id_user, c.name, t.description, 
+                    t.status, t.creation_dt, t.id_employee
+                   FROM tickets t 
+                   JOIN categories c ON t.id_category = c.id 
+                   WHERE t.status IN ('в ожидании', 'в работе')''')
+    data = cur.fetchall()
     cur.close()
-    return
+    return data
 
 
 def show_ticket_description_for_answer(id_ticket):
@@ -381,4 +387,31 @@ def show_ticket_description_for_answer(id_ticket):
     cur.close()
     return data
 
+
+def take_ticket(ticket_id, employee_id):
+    db = get_db_connection()
+    cur = db.cursor()
+    try:
+        # Проверяем, что заявка существует и имеет статус 'в ожидании'
+        cur.execute("SELECT id FROM tickets WHERE id = %s AND status = 'в ожидании'", (ticket_id,))
+        if not cur.fetchone():
+            return False
+
+        # Обновляем заявку
+        cur.execute("""
+            UPDATE tickets 
+            SET status = 'в работе', 
+                id_employee = %s 
+            WHERE id = %s
+        """, (employee_id, ticket_id))
+
+        db.commit()
+        return cur.rowcount > 0  # Возвращает True если была обновлена хотя бы одна строка
+
+    except Exception as e:
+        print(f"Ошибка при взятии заявки: {e}")
+        db.rollback()
+        return False
+    finally:
+        cur.close()
 # commitnula
