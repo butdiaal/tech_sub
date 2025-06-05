@@ -372,7 +372,7 @@ def take_ticket(id_ticket,
     return
 
 
-def show_ticket_description__for_answer(id_ticket):
+def show_ticket_description_for_answer(id_ticket):
     db = get_db_connection()
     cur = db.cursor()
     cur.execute(
