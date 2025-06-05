@@ -220,22 +220,21 @@ def get_employee(login, password):
     return user
 
 
-def create_user(login, password, ph_num) :
+def create_user(login, password, ph_num):
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT id FROM users WHERE login = %s", (login,))
+    if cursor.fetchone():
+        print("Ошибка: пользователь уже существует")
+        return False
 
-        connection = get_db_connection()
-        cursor = connection.cursor()
-        cursor.execute("SELECT id FROM users WHERE login = %s", (login,))
-        if cursor.fetchone():
-            print("Ошибка: пользователь уже существует")
-            return False
+    cursor.execute(
+        f"INSERT INTO users (login, password, ph_num) VALUES ('{login}', md5('{password}'), '{ph_num}')",
 
-        cursor.execute(
-            f"INSERT INTO users (login, password, ph_num) VALUES ('{login}', md5('{password}'), '{ph_num}')",
+    )
 
-        )
-
-        connection.commit()
-        return True
+    connection.commit()
+    return True
 
 
 def create_user_admin(login, password):
@@ -297,7 +296,7 @@ def update_user(user_id, login, password):
     cursor = connection.cursor()
     try:
         sql = "UPDATE users SET login = %s, password = %s WHERE user_id = %s"
-        cursor.execute(sql, (login, password,  user_id))
+        cursor.execute(sql, (login, password, user_id))
         connection.commit()
         return True
     except Exception as e:
@@ -324,7 +323,17 @@ def update_employee(emp_id, login, password, is_admin):
         connection.close()
 
 
-def get_types(): #вывод списка категорий (типов) в скроллэриа гроупбокс
+def show_ticket_description__for_answer(id_ticket):
+    db = get_db_connection()
+    cur = db.cursor()
+    cur.execute(
+        f'''select t.id, c.name, t.description, t.status, t.creation_dt from tickets t join categories c on t.id_category = c.id;''')
+    data = cur.fetchall()
+    cur.close()
+    return data
+
+
+def get_types():  # вывод списка категорий (типов) в скроллэриа гроупбокс
     db = get_db_connection()
     cur = db.cursor()
     cur.execute('select concat(name,", приоритет - ", level) from categories;')
@@ -332,7 +341,8 @@ def get_types(): #вывод списка категорий (типов) в с�
     cur.close()
     return data
 
-def get_statuses(): #вывод списка статусов в скроллэриа гроупбокс
+
+def get_statuses():  # вывод списка статусов в скроллэриа гроупбокс
     db = get_db_connection()
     cur = db.cursor()
     cur.execute('select distinct(status) from tickets;')
@@ -340,7 +350,8 @@ def get_statuses(): #вывод списка статусов в скроллэ�
     cur.close()
     return data
 
-def get_active_tickets_except_done(): #запрос для вывода данных  в интерактивную таблицу
+
+def get_active_tickets_except_done():  # запрос для вывода данных  в интерактивную таблицу
     db = get_db_connection()
     cur = db.cursor()
     cur.execute('''select 
@@ -350,7 +361,9 @@ def get_active_tickets_except_done(): #запрос для вывода данн
     cur.close()
     return data
 
-def take_ticket(id_ticket, id_employee): #на кнопку взять заявку, чтобы статус менялся на в работе и поолучался айди нынешнего имплоии
+
+def take_ticket(id_ticket,
+                id_employee):  # на кнопку взять заявку, чтобы статус менялся на в работе и поолучался айди нынешнего имплоии
     db = get_db_connection()
     cur = db.cursor()
     cur.execute(f'''if status = 'в ожидании' then
@@ -358,4 +371,14 @@ def take_ticket(id_ticket, id_employee): #на кнопку взять заяв�
     cur.close()
     return
 
-#commitnula
+
+def show_ticket_description__for_answer(id_ticket):
+    db = get_db_connection()
+    cur = db.cursor()
+    cur.execute(
+        f'''select t.id, c.name, t.description, t.status, t.creation_dt from tickets t join categories c on t.id_category = c.id where t.id = id_ticket;''')
+    data = cur.fetchall()
+    cur.close()
+    return data
+
+# commitnula
