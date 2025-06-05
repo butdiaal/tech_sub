@@ -308,7 +308,7 @@ def update_employee(emp_id, login, password, is_admin):
         connection.close()
 
 
-def get_types():
+def get_types(): #вывод списка категорий (типов) в скроллэриа гроупбокс
     db = get_db_connection()
     cur = db.cursor()
     cur.execute('select concat(name,", приоритет - ", level) from categories;')
@@ -316,7 +316,7 @@ def get_types():
     cur.close()
     return data
 
-def get_statuses():
+def get_statuses(): #вывод списка статусов в скроллэриа гроупбокс
     db = get_db_connection()
     cur = db.cursor()
     cur.execute('select distinct(status) from tickets;')
