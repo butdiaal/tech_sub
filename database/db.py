@@ -301,3 +301,12 @@ def update_employee(emp_id, login, password, is_admin):
         return False
     finally:
         connection.close()
+
+
+def get_types():
+    db = get_db_connection()
+    cur = db.cursor()
+    cur.execute('select concat(name,", ", level) from categories;')
+    data = cur.fetchone()
+    cur.close()
+    return data
