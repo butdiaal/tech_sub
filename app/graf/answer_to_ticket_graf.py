@@ -243,7 +243,7 @@ class Answer_Ui_Form(object):
         self.answer_lb.setText(_translate("Form", "Ответить на заявку"))
         self.insert_answer_lb.setText(_translate("Form", "Введите ответ на заявку:"))
         self.lb_categ.setText(_translate("Form", "Заявка:"))
-        self.pushButton_2.setText(_translate("Form", "Отправить заявку"))
+        self.pushButton_2.setText(_translate("Form", "Отправить ответ на заявку"))
 
 
 if __name__ == "__main__":
