@@ -7,7 +7,7 @@ def get_db_connection():
         conn = mdb.connect(
             host="localhost",
             user="root",
-            password="",
+            password="root",
             database="tech_sub",
             autocommit=True
         )
@@ -355,7 +355,7 @@ def show_ticket_description__for_answer(id_ticket):
 def get_types():  # вывод списка категорий (типов) в скроллэриа гроупбокс
     db = get_db_connection()
     cur = db.cursor()
-    cur.execute('select concat(name,", приоритет - ", level) from categories;')
+    cur.execute('select name, level from categories;') #('select concat(name,", приоритет - ", level) from categories;') (was like that)
     data = cur.fetchall()
     cur.close()
     return data
