@@ -31,6 +31,8 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         self.load_statuses()
         self.load_tickets()
 
+        self.tickets_table.itemSelectionChanged.connect(self.update_selected_ticket)
+
         # Подключение кнопок
         self.take_ticket_bt.clicked.connect(self.take_selected_ticket)
         self.answer_bt.clicked.connect(self.answer_to_ticket)
@@ -178,15 +180,59 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
             QtWidgets.QMessageBox.warning(self, "Ошибка", "Ошибка при обновлении заявки")
 
     def answer_to_ticket(self):
-        print(self.employee_id, self.ticket_id)
-        self.ticket_window = Answer_Window(employee_id=self.employee_id, ticket_id=self.ticket_id)
-        self.ticket_window.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
+        """Обработка ответа на заявку"""
+        if not hasattr(self, 'tickets_table'):
+            QtWidgets.QMessageBox.warning(self, "Ошибка", "Нет доступных заявок")
+            return
+
+        selected = self.tickets_table.selectedItems()
+        if not selected:
+            QtWidgets.QMessageBox.warning(self, "Ошибка", "Выберите заявку из таблицы!")
+            return
+
+        row = selected[0].row()
+        ticket_id = int(self.tickets_table.item(row, 0).text())
+        employee_id_in_ticket = self.tickets_table.item(row, 6).text()
+
+        # Проверяем, что заявка взята текущим сотрудником
+        if employee_id_in_ticket != str(self.employee_id):
+            QtWidgets.QMessageBox.warning(
+                self,
+                "Ошибка",
+                "Вы можете отвечать только на заявки, взятые вами в работу!"
+            )
+            return
+
+        # Проверяем статус заявки
+        status = self.tickets_table.item(row, 4).text().lower()
+        if status not in ['в работе', 'на проверке']:
+            QtWidgets.QMessageBox.warning(
+                self,
+                "Ошибка",
+                "Ответ можно давать только на заявки со статусом 'В работе' или 'На проверке'"
+            )
+            return
+
+        # Открываем окно ответа
+        self.ticket_window = Answer_Window(
+            employee_id=self.employee_id,
+            ticket_id=ticket_id,
+            parent=self
+        )
+        self.ticket_window.setAttribute(QtCore.Qt.WidgetAttribute.WA_DeleteOnClose)
         self.ticket_window.show()
+
+    def update_selected_ticket(self):
+        """Обновляет self.ticket_id при выборе строки в таблице"""
+        selected = self.tickets_table.selectedItems()
+        if selected:
+            row = selected[0].row()
+            self.ticket_id = int(self.tickets_table.item(row, 0).text())
 
 if __name__ == "__main__":
     import sys
 
     app = QtWidgets.QApplication(sys.argv)
-    win = Employee_Window(employee_id=1)
+    win = Employee_Window(employee_id=2)
     win.show()
     sys.exit(app.exec())
