@@ -15,10 +15,25 @@ class Answer_Window(Answer_Ui_Form, QtWidgets.QWidget):
         self.desc_ticket = show_ticket_description(self.ticket_id)
         self.ticket_desc_lb.setText(f'{self.desc_ticket}')
 
-    def ger_answ(self):
-        self.answer_line_edit.setText(f'{self.desc_ticket}')
+        self.pushButton_2.clicked.connect(self.send_answer)
 
-        self.answer = self.answer_line_edit.text.strip()
+    def send_answer(self):
+        self.answer = self.answer_line_edit.toPlainText().strip()
+
+        print(self.answer)
+
+
+        if not self.answer:
+            QtWidgets.QMessageBox.warning(self, "Ошибка", "Введите текст ответа")
+            return
+        try:
+            get_answer(self.ticket_id, self.answer)
+            QtWidgets.QMessageBox.information(self, "Успех", "Ответ отправлен")
+            self.answer_line_edit.clear()  # Очищаем поле ввода
+        except Exception as e:
+            QtWidgets.QMessageBox.critical(self, "Ошибка", f"Не удалось отправить ответ: {str(e)}")
+
+
 
 
 if __name__ == "__main__":
