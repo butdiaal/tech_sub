@@ -378,7 +378,7 @@ def get_active_tickets_except_done():
     return data
 
 
-def show_ticket_description_for_answer(id_ticket):
+def show_ticket_description_for_answer(id_ticket): #описание тикета в окне ответа
     db = get_db_connection()
     cur = db.cursor()
     cur.execute(
@@ -414,4 +414,41 @@ def take_ticket(ticket_id, employee_id):
         return False
     finally:
         cur.close()
+
+def selected_status(status_name): #выбор по статусу (радиоботтон)
+    db = get_db_connection()
+    cur = db.cursor()
+    cur.execute(
+        f''' SELECT t.id, t.id_user, c.name, t.description, 
+                  t.status, t.creation_dt, t.id_employee
+                  FROM tickets t 
+                  JOIN categories c ON t.id_category = c.id
+                  WHERE t.status = '{status_name}'
+        ''')
+    data = cur.fetchall()
+    cur.close()
+    return data
+
+def selected_category(category_name): #выбор по категории (радиоботтон)
+    db = get_db_connection()
+    cur = db.cursor()
+    cur.execute(
+        f''' SELECT t.id, t.id_user, c.name, t.description, 
+                  t.status, t.creation_dt, t.id_employee
+                  FROM tickets t 
+                  JOIN categories c ON t.id_category = c.id
+                  WHERE c.name = '{category_name}'
+        ''')
+    data = cur.fetchall()
+    cur.close()
+    return data
+
+def get_answer(id_ticket, answer): #получает ответ и айди заявки и запускает процедуру (окно ответа - коннект рна кнопку)
+    db = get_db_connection()
+    cur = db.cursor()
+    cur.execute(
+        f'''call get_answer_upd_status_ins_reports({id_ticket}, '{answer}');
+''')
+    cur.close()
+    return
 # commitnula
