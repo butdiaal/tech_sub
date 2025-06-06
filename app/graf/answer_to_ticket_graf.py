@@ -201,7 +201,7 @@ class Ui_Form(object):
         font.setBold(True)
         self.insert_answer_lb.setFont(font)
         self.insert_answer_lb.setObjectName("insert_answer_lb")
-        self.answer_line_edit = QtWidgets.QLineEdit(parent=self.grBox_new)
+        self.answer_line_edit = QtWidgets.QTextEdit(parent=self.grBox_new)
         self.answer_line_edit.setGeometry(QtCore.QRect(10, 190, 431, 341))
         self.answer_line_edit.setObjectName("answer_line_edit")
         self.lb_categ = QtWidgets.QLabel(parent=self.grBox_new)
