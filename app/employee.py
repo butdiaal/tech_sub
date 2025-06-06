@@ -100,6 +100,22 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         self.tickets_table.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectionBehavior.SelectRows)
         self.tickets_table.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.SingleSelection)
 
+        # Установка минимальной высоты строк
+        self.tickets_table.verticalHeader().setDefaultSectionSize(60)
+
+        # Настройка столбцов
+        self.tickets_table.setColumnWidth(0, 50)  # ID
+        self.tickets_table.setColumnWidth(1, 70)  # User ID
+        self.tickets_table.setColumnWidth(2, 100)  # Category
+        self.tickets_table.setColumnWidth(4, 100)  # Status
+        self.tickets_table.setColumnWidth(5, 120)  # Creation Date
+        self.tickets_table.setColumnWidth(6, 80)  # Employee ID
+
+        # Исправленная строка - правильный путь к Stretch
+        self.tickets_table.horizontalHeader().setSectionResizeMode(
+            3, QtWidgets.QHeaderView.ResizeMode.Stretch
+        )
+
         # Настройка шрифта
         font = self.tickets_table.font()
         font.setPointSize(8)
