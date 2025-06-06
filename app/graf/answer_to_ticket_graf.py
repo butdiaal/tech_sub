@@ -201,7 +201,7 @@ class Ui_Form(object):
         font.setBold(True)
         self.insert_answer_lb.setFont(font)
         self.insert_answer_lb.setObjectName("insert_answer_lb")
-        self.answer_line_edit = QtWidgets.QLineEdit(parent=self.grBox_new)
+        self.answer_line_edit = QtWidgets.QTextEdit(parent=self.grBox_new)
         self.answer_line_edit.setGeometry(QtCore.QRect(10, 190, 431, 341))
         self.answer_line_edit.setObjectName("answer_line_edit")
         self.lb_categ = QtWidgets.QLabel(parent=self.grBox_new)
@@ -216,12 +216,23 @@ class Ui_Form(object):
         self.ticket_desc_lb.setText("")
         self.ticket_desc_lb.setObjectName("ticket_desc_lb")
         self.pushButton_2 = QtWidgets.QPushButton(parent=Form)
-        self.pushButton_2.setGeometry(QtCore.QRect(120, 610, 231, 41))
+        self.pushButton_2.setGeometry(QtCore.QRect(140, 610, 231, 41))
         font = QtGui.QFont()
         font.setPointSize(10)
         font.setBold(False)
         self.pushButton_2.setFont(font)
         self.pushButton_2.setObjectName("pushButton_2")
+        self.pushButton_2.setStyleSheet("""
+                                   QPushButton {
+                                       background-color: #794E2B;
+                                       color: white;
+                                       border-radius: 5px;
+                                       font-size: 10,5pt;
+                                   }
+                                   QPushButton:hover {
+                                       background-color: #B0884C;
+                                   }
+                                    """)
 
         self.retranslateUi(Form)
         QtCore.QMetaObject.connectSlotsByName(Form)

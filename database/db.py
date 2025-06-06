@@ -199,6 +199,24 @@ def get_employees_id(login):
         return None
 
 
+def get_user_role(user_id):
+    """Получает роль пользователя"""
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT role FROM users WHERE id = %s", (user_id,))
+    res = cursor.fetchone()
+    connection.close()
+    return res[0] if res else None
+
+def get_employee_id_by_user_id(user_id):
+    """Получает id сотрудника по id пользователя"""
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT id FROM employees WHERE id_user = %s", (user_id,))
+    res = cursor.fetchone()
+    connection.close()
+    return res[0] if res else None
+
 def get_user(login, password):
     """Получаем логин и пароль"""
     connection = get_db_connection()
