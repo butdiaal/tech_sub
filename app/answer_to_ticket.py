@@ -13,7 +13,7 @@ class Answer_Window(Answer_Ui_Form, QtWidgets.QWidget):
         self.desc_ticket = None
 
         self.desc_ticket = show_ticket_description_for_answer(self.ticket_id)
-
+        self.ticket_desc_lb.setText(f'{self.desc_ticket}')
 
     def ger_answ(self):
         self.answer_line_edit.setText(f'{self.desc_ticket}')
