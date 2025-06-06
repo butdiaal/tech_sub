@@ -1,10 +1,8 @@
-from PyQt6.QtWidgets import QMessageBox
-import sys
+
 from PyQt6 import QtWidgets
 from PyQt6.QtWidgets import QMessageBox
 from graf.auth_graf import Ui_AuthForm
 from graf.reg_graf import Ui_RegForm
-from graf.admin_graf import Ui_admin_wind
 import database.db as db
 import main  # Импортируем ваш основной модуль
 
@@ -21,11 +19,11 @@ class RegController:
         phone = self.reg_window.Reg.lineEdit_reg_number.text().strip()
 
         if not all([login, password, phone]):
-            QMessageBox.critical(
+            QtWidgets.QMessageBox.critical(
                 self.reg_window,
                 "Некорректные данные",
                 "Все поля должны быть заполнены",
-                QMessageBox.StandardButton.Ok
+                QtWidgets.QMessageBox.StandardButton.Ok
             )
             return
 
@@ -39,7 +37,7 @@ class RegController:
                 raise Exception("Пользователь не найден после создания")
 
             main.global_user_id = user_id
-            QMessageBox.information(
+            QtWidgets.QMessageBox.information(
                 self.reg_window,
                 "Успешная регистрация",
                 f"Пользователь {login} успешно зарегистрирован",
@@ -48,11 +46,11 @@ class RegController:
             self.main_app.showUser()
 
         except Exception as e:
-            QMessageBox.critical(
+            QtWidgets.QMessageBox.critical(
                 self.reg_window,
                 "Ошибка регистрации",
                 f"Ошибка: {str(e)}",
-                QMessageBox.StandardButton.Ok
+                QtWidgets.QMessageBox.StandardButton.Ok
             )
 
 
@@ -62,6 +60,7 @@ class AuthWind(QtWidgets.QWidget):
         self.main = mainApp
         self.Auth = Ui_AuthForm()
         self.Auth.setupUi(self)
+        # self.global_user_id = None
 
         self.Auth.pushButton_reg_in_auth.clicked.connect(self.main.showReg)
         self.Auth.pushButton_auth_in.clicked.connect(self.check_auth)
@@ -72,7 +71,7 @@ class AuthWind(QtWidgets.QWidget):
         password = self.Auth.lineEdit_aut_pass.text().strip()
 
         if not login or not password:
-            QMessageBox.warning(self, "Ошибка", "Логин и пароль не могут быть пустыми")
+            QtWidgets.QMessageBox.warning(self, "Ошибка", "Логин и пароль не могут быть пустыми")
             return
 
         employee_id = db.get_employees_id(login)
@@ -83,18 +82,18 @@ class AuthWind(QtWidgets.QWidget):
                 if employee[6]:
                     self.main.showAdm()
                 else:
-                    self.main.showEmp()
+                    self.main.showEmp(employee[0])
                 return
 
         user_id = db.get_user_id(login)
         if user_id:
             user = db.get_user(login, password)
             if user:
-                main.global_user_id = user[0]
-                self.main.showUser()
+                # self.global_user_id = int(user[0])
+                self.main.showUser(user[0])
                 return
 
-        QMessageBox.warning(self, "Ошибка", "Неверный логин или пароль")
+        QtWidgets.QMessageBox.warning(self, "Ошибка", "Неверный логин или пароль")
 
 
 class RegWind(QtWidgets.QWidget):

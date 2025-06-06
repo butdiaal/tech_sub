@@ -7,7 +7,7 @@ def get_db_connection():
         conn = mdb.connect(
             host="localhost",
             user="root",
-            password="root",
+            password="",
             database="tech_sub",
             autocommit=True
         )
@@ -179,6 +179,7 @@ def get_user_id(login):
     res = cursor.fetchone()
     connection.close()
     if res is not None:
+        print(res)
         return res[0]
     else:
         return None
