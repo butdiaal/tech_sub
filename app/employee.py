@@ -8,6 +8,7 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         super().__init__(parent)
         self.setupUi(self)
         self.employee_id = employee_id
+        self.current_status_filter = None  # Текущий выбранный статус
 
         # Инициализация layout
         self.scroll_widget_types = QtWidgets.QWidget()
@@ -27,8 +28,12 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         self.load_statuses()
         self.load_tickets()
 
-        # Подключение кнопки
+        # Подключение кнопок
         self.take_ticket_bt.clicked.connect(self.take_selected_ticket)
+
+        # Подключение сигналов радио-кнопок статусов
+        for radio in self.radios_statuses:
+            radio.toggled.connect(self.filter_tickets_by_status)
 
     def load_types(self):
         types = db.get_types()
@@ -47,10 +52,40 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
                 radio = QtWidgets.QRadioButton(status[0])
                 self.layout_status.addWidget(radio)
                 self.radios_statuses.append(radio)
+                # Первая кнопка выбрана по умолчанию
+                if len(self.radios_statuses) == 1:
+                    radio.setChecked(True)
+                    self.current_status_filter = status[0]
+
+    def filter_tickets_by_status(self):
+        """Фильтрация заявок по выбранному статусу"""
+        # Определяем выбранный статус
+        for radio in self.radios_statuses:
+            if radio.isChecked():
+                self.current_status_filter = radio.text()
+                break
+
+        # Перезагружаем заявки с учетом фильтра
+        self.load_tickets()
 
     def load_tickets(self):
-        tickets = db.get_active_tickets_except_done()
+        """Загрузка заявок с учетом текущего фильтра статуса"""
+        if self.current_status_filter:
+            # Если выбран конкретный статус
+            tickets = db.get_tickets_by_status(self.current_status_filter)
+        else:
+            # Если фильтр не выбран (показываем все активные)
+            tickets = db.get_active_tickets_except_done()
+
+        # Очищаем таблицу перед загрузкой новых данных
+        if hasattr(self, 'tickets_table'):
+            self.layout_tickets.removeWidget(self.tickets_table)
+            self.tickets_table.deleteLater()
+
         if not tickets:
+            # Показываем сообщение, если нет заявок
+            no_tickets_label = QtWidgets.QLabel("Нет заявок с выбранным статусом")
+            self.layout_tickets.addWidget(no_tickets_label)
             return
 
         self.tickets_table = QtWidgets.QTableWidget()
@@ -88,6 +123,10 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
 
     def take_selected_ticket(self):
         """Обработка взятия выбранной заявки"""
+        if not hasattr(self, 'tickets_table'):
+            QtWidgets.QMessageBox.warning(self, "Ошибка", "Нет заявок для выбора!")
+            return
+
         selected = self.tickets_table.selectedItems()
 
         if not selected:
@@ -125,4 +164,3 @@ if __name__ == "__main__":
     win = Employee_Window(employee_id=1)
     win.show()
     sys.exit(app.exec())
-

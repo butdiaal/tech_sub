@@ -198,6 +198,24 @@ def get_employees_id(login):
         return None
 
 
+def get_user_role(user_id):
+    """Получает роль пользователя"""
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT role FROM users WHERE id = %s", (user_id,))
+    res = cursor.fetchone()
+    connection.close()
+    return res[0] if res else None
+
+def get_employee_id_by_user_id(user_id):
+    """Получает id сотрудника по id пользователя"""
+    connection = get_db_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT id FROM employees WHERE id_user = %s", (user_id,))
+    res = cursor.fetchone()
+    connection.close()
+    return res[0] if res else None
+
 def get_user(login, password):
     """Получаем логин и пароль"""
     connection = get_db_connection()
@@ -451,4 +469,22 @@ def get_answer(id_ticket, answer): #получает ответ и айди за
 ''')
     cur.close()
     return
+
+
+def get_tickets_by_status(status):
+    """Получение заявок по указанному статусу"""
+    db = get_db_connection()
+    cur = db.cursor()
+    try:
+        cur.execute('''SELECT t.id, t.id_user, c.name, t.description, 
+                      t.status, t.creation_dt, t.id_employee
+                      FROM tickets t 
+                      JOIN categories c ON t.id_category = c.id
+                      WHERE t.status = %s''', (status,))
+        return cur.fetchall()
+    except Exception as e:
+        print(f"Ошибка при получении заявок по статусу: {e}")
+        return []
+    finally:
+        cur.close()
 # commitnula
