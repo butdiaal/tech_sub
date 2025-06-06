@@ -451,4 +451,22 @@ def get_answer(id_ticket, answer): #получает ответ и айди за
 ''')
     cur.close()
     return
+
+
+def get_tickets_by_status(status):
+    """Получение заявок по указанному статусу"""
+    db = get_db_connection()
+    cur = db.cursor()
+    try:
+        cur.execute('''SELECT t.id, t.id_user, c.name, t.description, 
+                      t.status, t.creation_dt, t.id_employee
+                      FROM tickets t 
+                      JOIN categories c ON t.id_category = c.id
+                      WHERE t.status = %s''', (status,))
+        return cur.fetchall()
+    except Exception as e:
+        print(f"Ошибка при получении заявок по статусу: {e}")
+        return []
+    finally:
+        cur.close()
 # commitnula
