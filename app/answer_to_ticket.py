@@ -1,6 +1,6 @@
 
 from app.graf.answer_to_ticket_graf import *
-from database.db import get_answer, show_ticket_description_for_answer
+from database.db import get_answer, show_ticket_description
 
 
 class Answer_Window(Answer_Ui_Form, QtWidgets.QWidget):
@@ -12,7 +12,7 @@ class Answer_Window(Answer_Ui_Form, QtWidgets.QWidget):
         self.answer = None
         self.desc_ticket = None
 
-        self.desc_ticket = show_ticket_description_for_answer(self.ticket_id)
+        self.desc_ticket = show_ticket_description(self.ticket_id)
         self.ticket_desc_lb.setText(f'{self.desc_ticket}')
 
     def ger_answ(self):

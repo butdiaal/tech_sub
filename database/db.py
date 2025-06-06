@@ -7,7 +7,7 @@ def get_db_connection():
         conn = mdb.connect(
             host="localhost",
             user="root",
-            password="root",
+            password="",
             database="tech_sub",
             autocommit=True
         )
@@ -402,7 +402,7 @@ def show_ticket_description_for_answer(id_ticket): #описание тикет�
     cur = db.cursor()
     cur.execute(
         f'''select t.id, c.name, t.description, t.status, t.creation_dt from tickets t join categories c on t.id_category = c.id where t.id = id_ticket;''')
-    data = cur.fetchall()
+    data = cur.fetchone()
     cur.close()
     return data
 
@@ -488,4 +488,20 @@ def get_tickets_by_status(status):
         return []
     finally:
         cur.close()
-# commitnula
+
+def show_ticket_description(ticket_id):
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        cursor.execute(
+            "SELECT description FROM tickets WHERE id = %s",
+            (ticket_id,)
+        )
+        result = cursor.fetchone()
+        return result[0] if result else "Описание не найдено"
+    except Exception as e:
+        print(f"Ошибка при получении описания: {e}")
+        return "Ошибка загрузки описания"
+    finally:
+        if connection:
+            connection.close()

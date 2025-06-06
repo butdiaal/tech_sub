@@ -216,8 +216,7 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         # Открываем окно ответа
         self.ticket_window = Answer_Window(
             employee_id=self.employee_id,
-            ticket_id=ticket_id,
-            parent=self
+            ticket_id=ticket_id
         )
         self.ticket_window.setAttribute(QtCore.Qt.WidgetAttribute.WA_DeleteOnClose)
         self.ticket_window.show()
