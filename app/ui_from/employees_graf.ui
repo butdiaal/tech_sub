@@ -645,68 +645,6 @@
     <string>Взять заявку</string>
    </property>
   </widget>
-  <widget class="QGroupBox" name="groupBox_types">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>280</y>
-     <width>221</width>
-     <height>221</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Выберите тип:</string>
-   </property>
-   <widget class="QScrollArea" name="scrollArea_types">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>201</width>
-      <height>181</height>
-     </rect>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents_6">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>199</width>
-       <height>179</height>
-      </rect>
-     </property>
-     <widget class="QScrollBar" name="verticalScrollBar_types">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>0</y>
-        <width>16</width>
-        <height>181</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-     <widget class="QScrollBar" name="horizontalScrollBar_types">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>160</y>
-        <width>181</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </widget>
-   </widget>
-  </widget>
   <widget class="QLabel" name="shown_login_lb">
    <property name="geometry">
     <rect>

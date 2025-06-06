@@ -15,10 +15,6 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         self.init_ui()
 
     def init_ui(self):
-        # Инициализация layout
-        self.scroll_widget_types = QtWidgets.QWidget()
-        self.layout_types = QtWidgets.QVBoxLayout(self.scroll_widget_types)
-        self.scrollArea_types.setWidget(self.scroll_widget_types)
 
         self.scroll_widget_status = QtWidgets.QWidget()
         self.layout_status = QtWidgets.QVBoxLayout(self.scroll_widget_status)
@@ -29,7 +25,6 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         self.scrollArea_tickets.setWidget(self.scroll_widget_tickets)
 
         # Загрузка данных
-        self.load_types()
         self.load_statuses()
         self.load_tickets()
 
@@ -43,15 +38,7 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         for radio in self.radios_statuses:
             radio.toggled.connect(self.filter_tickets_by_status)
 
-    def load_types(self):
-        types = db.get_types()
-        self.radios_types = []
-        if types:
-            for type_data in types:
-                display_text = ", приоритет -  ".join(str(item) for item in type_data)  # Теперь будет name и level
-                radio = QtWidgets.QRadioButton(display_text)
-                self.layout_types.addWidget(radio)
-                self.radios_types.append(radio)
+
 
     def load_statuses(self):
         statuses = db.get_statuses()
@@ -76,6 +63,7 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
 
         # Перезагружаем заявки с учетом фильтра
         self.load_tickets()
+
 
     def load_tickets(self):
         """Загрузка заявок с учетом текущего фильтра статуса"""
