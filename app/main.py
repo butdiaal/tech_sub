@@ -39,16 +39,16 @@ class Main:
         self.adm_wind = AdminWindow()
         self.adm_wind.show()
 
-    def showEmp(self):
+    def showEmp(self, id):
         """Показать панель сотрудников"""
         self.auth_wind.hide()
-        self.emp_wind = Employee_Window()
+        self.emp_wind = Employee_Window(employee_id=id)
         self.emp_wind.show()
 
-    def showUser(self):
+    def showUser(self,  id):
         """Показать пользовательскую панель"""
         self.auth_wind.hide()
-        self.user_wind = User_Window()
+        self.user_wind = User_Window(user_id=id)
         self.user_wind.show()
 
 
