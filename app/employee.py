@@ -1,4 +1,6 @@
 from PyQt6 import QtWidgets, QtCore, QtGui
+
+from app.answer_to_ticket import Answer_Window
 from app.graf.employees_graf import *
 import database.db as db
 
@@ -9,6 +11,7 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         self.setupUi(self)
         self.employee_id = employee_id
         self.current_status_filter = None  # Текущий выбранный статус
+        self.ticket_id = None
 
         # Инициализация layout
         self.scroll_widget_types = QtWidgets.QWidget()
@@ -30,6 +33,7 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
 
         # Подключение кнопок
         self.take_ticket_bt.clicked.connect(self.take_selected_ticket)
+        self.answer_bt.clicked.connect(self.answer_to_ticket)
 
         # Подключение сигналов радио-кнопок статусов
         for radio in self.radios_statuses:
@@ -150,7 +154,7 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
             return
 
         row = selected[0].row()
-        ticket_id = int(self.tickets_table.item(row, 0).text())
+        self.ticket_id = int(self.tickets_table.item(row, 0).text())
         current_status = self.tickets_table.item(row, 4).text().lower()
 
         if current_status != 'в ожидании':
@@ -159,7 +163,7 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
             return
 
         # Обновление в базе данных
-        if db.take_ticket(ticket_id, self.employee_id):
+        if db.take_ticket(self.ticket_id, self.employee_id):
             # Обновление интерфейса
             self.tickets_table.item(row, 4).setText("в работе")
             self.tickets_table.item(row, 6).setText(str(self.employee_id))
@@ -172,6 +176,11 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         else:
             QtWidgets.QMessageBox.warning(self, "Ошибка", "Ошибка при обновлении заявки")
 
+    def answer_to_ticket(self):
+        print(self.employee_id, self.ticket_id)
+        self.ticket_window = Answer_Window(employee_id=self.employee_id, ticket_id=self.ticket_id)
+        self.ticket_window.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
+        self.ticket_window.show()
 
 if __name__ == "__main__":
     import sys
