@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>866</width>
-    <height>536</height>
+    <width>509</width>
+    <height>657</height>
    </rect>
   </property>
   <property name="palette">
@@ -524,257 +524,120 @@
     </disabled>
    </palette>
   </property>
-  <property name="font">
-   <font>
-    <family>XO Tahion</family>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QGroupBox" name="groupBox_tickets">
+  <widget class="QLabel" name="answer_lb">
    <property name="geometry">
     <rect>
-     <x>40</x>
-     <y>120</y>
-     <width>571</width>
-     <height>381</height>
+     <x>130</x>
+     <y>0</y>
+     <width>231</width>
+     <height>81</height>
     </rect>
    </property>
    <property name="font">
     <font>
-     <family>XO Tahion</family>
-     <pointsize>14</pointsize>
-    </font>
-   </property>
-   <property name="title">
-    <string>Активные заявки</string>
-   </property>
-   <widget class="QScrollArea" name="scrollArea_tickets">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>551</width>
-      <height>341</height>
-     </rect>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents_4">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>549</width>
-       <height>339</height>
-      </rect>
-     </property>
-     <widget class="QScrollBar" name="verticalScrollBar_tickets">
-      <property name="geometry">
-       <rect>
-        <x>521</x>
-        <y>0</y>
-        <width>20</width>
-        <height>341</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-    </widget>
-   </widget>
-  </widget>
-  <widget class="QLabel" name="hello_label">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>10</y>
-     <width>241</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
      <pointsize>18</pointsize>
      <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
-    <string>Добро пожаловать</string>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="answer_bt">
-   <property name="geometry">
-    <rect>
-     <x>340</x>
-     <y>60</y>
-     <width>271</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>XO Tahion</family>
-     <pointsize>10</pointsize>
     </font>
    </property>
    <property name="text">
     <string>Ответить на заявку</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="take_ticket_bt">
+  <widget class="QGroupBox" name="grBox_new">
    <property name="geometry">
     <rect>
-     <x>40</x>
+     <x>30</x>
      <y>60</y>
-     <width>291</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>XO Tahion</family>
-     <pointsize>10</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Взять заявку</string>
-   </property>
-  </widget>
-  <widget class="QGroupBox" name="groupBox_types">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>280</y>
-     <width>221</width>
-     <height>221</height>
+     <width>451</width>
+     <height>541</height>
     </rect>
    </property>
    <property name="title">
-    <string>Выберите тип:</string>
-   </property>
-   <widget class="QScrollArea" name="scrollArea_types">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>201</width>
-      <height>181</height>
-     </rect>
-    </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
-    </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents_6">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>199</width>
-       <height>179</height>
-      </rect>
-     </property>
-     <widget class="QScrollBar" name="verticalScrollBar_types">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>0</y>
-        <width>16</width>
-        <height>181</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-     <widget class="QScrollBar" name="horizontalScrollBar_types">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>160</y>
-        <width>181</width>
-        <height>16</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </widget>
-   </widget>
-  </widget>
-  <widget class="QLabel" name="shown_login_lb">
-   <property name="geometry">
-    <rect>
-     <x>300</x>
-     <y>10</y>
-     <width>131</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <family>Arial</family>
-     <pointsize>18</pointsize>
-     <bold>true</bold>
-    </font>
-   </property>
-   <property name="text">
     <string/>
    </property>
-  </widget>
-  <widget class="QGroupBox" name="groupBox_status">
-   <property name="geometry">
-    <rect>
-     <x>630</x>
-     <y>30</y>
-     <width>221</width>
-     <height>241</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Выберите статус:</string>
-   </property>
-   <widget class="QScrollArea" name="scrollArea_status">
+   <widget class="QLabel" name="insert_answer_lb">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>160</y>
+      <width>271</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Введите ответ на заявку:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="answer_line_edit">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>190</y>
+      <width>431</width>
+      <height>341</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="lb_categ">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>331</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Заявка:</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="ticket_desc_lb">
     <property name="geometry">
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>201</width>
-      <height>201</height>
+      <width>431</width>
+      <height>131</height>
      </rect>
     </property>
-    <property name="widgetResizable">
-     <bool>true</bool>
+    <property name="text">
+     <string/>
     </property>
-    <widget class="QWidget" name="scrollAreaWidgetContents_5">
-     <property name="geometry">
-      <rect>
-       <x>0</x>
-       <y>0</y>
-       <width>199</width>
-       <height>199</height>
-      </rect>
-     </property>
-     <widget class="QScrollBar" name="verticalScrollBar_status">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>0</y>
-        <width>16</width>
-        <height>201</height>
-       </rect>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-    </widget>
    </widget>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>610</y>
+     <width>231</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+     <bold>false</bold>
+    </font>
+   </property>
+   <property name="text">
+    <string>Отправить заявку</string>
+   </property>
   </widget>
  </widget>
  <resources/>
