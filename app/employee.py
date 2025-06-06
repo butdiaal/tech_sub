@@ -44,7 +44,8 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         self.radios_types = []
         if types:
             for type_data in types:
-                radio = QtWidgets.QRadioButton(type_data[0])
+                display_text = ", приоритет -  ".join(str(item) for item in type_data)  # Теперь будет name и level
+                radio = QtWidgets.QRadioButton(display_text)
                 self.layout_types.addWidget(radio)
                 self.radios_types.append(radio)
 
