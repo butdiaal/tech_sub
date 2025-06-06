@@ -12,7 +12,9 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         self.employee_id = employee_id
         self.current_status_filter = None  # Текущий выбранный статус
         self.ticket_id = None
+        self.init_ui()
 
+    def init_ui(self):
         # Инициализация layout
         self.scroll_widget_types = QtWidgets.QWidget()
         self.layout_types = QtWidgets.QVBoxLayout(self.scroll_widget_types)
@@ -219,6 +221,8 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
             ticket_id=ticket_id
         )
         self.ticket_window.setAttribute(QtCore.Qt.WidgetAttribute.WA_DeleteOnClose)
+        self.ticket_window.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
+        self.ticket_window.destroyed.connect(self.init_ui)
         self.ticket_window.show()
 
     def update_selected_ticket(self):
