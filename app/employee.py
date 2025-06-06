@@ -222,7 +222,6 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         )
         self.ticket_window.setAttribute(QtCore.Qt.WidgetAttribute.WA_DeleteOnClose)
         self.ticket_window.setAttribute(Qt.WidgetAttribute.WA_DeleteOnClose)
-        self.ticket_window.destroyed.connect(self.init_ui)
         self.ticket_window.show()
 
     def update_selected_ticket(self):

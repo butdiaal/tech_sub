@@ -29,17 +29,10 @@ class Answer_Window(Answer_Ui_Form, QtWidgets.QWidget):
         try:
             get_answer(self.ticket_id, self.answer)
             QtWidgets.QMessageBox.information(self, "Успех", "Ответ отправлен")
+            self.close()
             self.answer_line_edit.clear()  # Очищаем поле ввода
+
         except Exception as e:
             QtWidgets.QMessageBox.critical(self, "Ошибка", f"Не удалось отправить ответ: {str(e)}")
 
 
-
-
-if __name__ == "__main__":
-    import sys
-
-    app = QtWidgets.QApplication(sys.argv)
-    win = Answer_Window()
-    win.show()
-    sys.exit(app.exec())
