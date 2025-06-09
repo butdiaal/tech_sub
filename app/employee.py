@@ -1,4 +1,5 @@
 from PyQt6 import QtWidgets, QtCore, QtGui
+from PyQt6.QtCore import Qt
 
 from app.answer_to_ticket import Answer_Window
 from app.graf.employees_graf import *
