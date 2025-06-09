@@ -456,7 +456,7 @@ def selected_status(status_name): #выбор по статусу (радиоб�
     cur.close()
     return data
 
-def selected_category(category_name): #выбор по категории (радиоботтон)
+def selected_category(category_name): #выбор по категории (радиоботтон)# не используется
     db = get_db_connection()
     cur = db.cursor()
     cur.execute(
@@ -513,3 +513,19 @@ def show_ticket_description(ticket_id):
     finally:
         if connection:
             connection.close()
+
+def get_all_from_reports():
+    try:
+        con = get_db_connection()
+        cursor = con.cursor()
+        cursor.execute(
+            f"select * from reports;"
+        )
+        result = cursor.fetchall()
+        return result
+    except Exception as e:
+        print(f"Ошибка при получении решенных заявок: {e}")
+        return "Ошибка загрузки решенных заявок"
+    finally:
+        if con:
+            con.close()

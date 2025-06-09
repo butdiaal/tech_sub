@@ -1,9 +1,13 @@
+import os
+
+import openpyxl
 from PyQt6 import QtWidgets, QtCore, QtGui
 from PyQt6.QtCore import Qt
 
 from app.answer_to_ticket import Answer_Window
 from app.graf.employees_graf import *
 import database.db as db
+import pandas as pd
 
 
 class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
@@ -34,12 +38,11 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         # Подключение кнопок
         self.take_ticket_bt.clicked.connect(self.take_selected_ticket)
         self.answer_bt.clicked.connect(self.answer_to_ticket)
+        self.excel_export.clicked.connect(self.export_to_excel)
 
         # Подключение сигналов радио-кнопок статусов
         for radio in self.radios_statuses:
             radio.toggled.connect(self.filter_tickets_by_status)
-
-
 
     def load_statuses(self):
         statuses = db.get_statuses()
@@ -64,7 +67,6 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
 
         # Перезагружаем заявки с учетом фильтра
         self.load_tickets()
-
 
     def load_tickets(self):
         """Загрузка заявок с учетом текущего фильтра статуса"""
@@ -219,6 +221,22 @@ class Employee_Window(QtWidgets.QWidget, Employee_Ui_Form):
         if selected:
             row = selected[0].row()
             self.ticket_id = int(self.tickets_table.item(row, 0).text())
+
+    def export_to_excel(self):
+        data = db.get_all_from_reports()
+        if not data:
+            QtWidgets.QMessageBox.information(self, "Информация",
+                                              "Нет данных для экспорта")
+            return
+        report = pd.DataFrame(data, columns=['ID', 'ID заявки', 'Категория', 'Дата и время создания заявки',
+                                             'Дата и время решения заявки', 'Описание заявки', 'Сотрудник',
+                                             'Ответ на заявку'])
+
+        report.to_excel("Report.xlsx", index=False, engine='openpyxl')
+        QtWidgets.QMessageBox.information(self, "Выполнено успешно",
+                                          f"Данные экспортированы в Report.xlsx")
+        self.startfile = os.startfile("Report.xlsx")
+
 
 if __name__ == "__main__":
     import sys
