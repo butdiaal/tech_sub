@@ -259,7 +259,7 @@ class Employee_Ui_Form(object):
         self.shown_login_lb.setText("")
         self.shown_login_lb.setObjectName("shown_login_lb")
         self.groupBox_status = QtWidgets.QGroupBox(parent=Form)
-        self.groupBox_status.setGeometry(QtCore.QRect(630, 30, 221, 241))
+        self.groupBox_status.setGeometry(QtCore.QRect(630, 130, 221, 241))
         self.groupBox_status.setObjectName("groupBox_status")
         self.scrollArea_status = QtWidgets.QScrollArea(parent=self.groupBox_status)
         self.scrollArea_status.setGeometry(QtCore.QRect(10, 30, 201, 201))
@@ -268,6 +268,24 @@ class Employee_Ui_Form(object):
         self.scrollAreaWidgetContents_5 = QtWidgets.QWidget()
         self.scrollAreaWidgetContents_5.setGeometry(QtCore.QRect(0, 0, 199, 199))
         self.scrollAreaWidgetContents_5.setObjectName("scrollAreaWidgetContents_5")
+        self.excel_export = QtWidgets.QPushButton(parent=Form)
+        self.excel_export.setGeometry(QtCore.QRect(631, 410, 220, 51))
+        font = QtGui.QFont()
+        font.setFamily("XO Tahion")
+        font.setPointSize(10)
+        self.excel_export.setFont(font)
+        self.excel_export.setObjectName("take_ticket_bt")
+        self.excel_export.setStyleSheet("""
+                                                   QPushButton {
+                                                       background-color: #794E2B;
+                                                       color: white;
+                                                       border-radius: 5px;
+                                                       font-size: 10,5pt;
+                                                   }
+                                                   QPushButton:hover {
+                                                       background-color: #B0884C;
+                                                   }
+                                                    """)
         self.verticalScrollBar_status = QtWidgets.QScrollBar(parent=self.scrollAreaWidgetContents_5)
         self.verticalScrollBar_status.setGeometry(QtCore.QRect(180, 0, 16, 201))
         self.verticalScrollBar_status.setOrientation(QtCore.Qt.Orientation.Vertical)
@@ -285,6 +303,7 @@ class Employee_Ui_Form(object):
         self.answer_bt.setText(_translate("Form", "Ответить на заявку"))
         self.take_ticket_bt.setText(_translate("Form", "Взять заявку"))
         self.groupBox_status.setTitle(_translate("Form", "Выберите статус:"))
+        self.excel_export.setText(_translate("Form", "Составить отчет"))
 
 
 if __name__ == "__main__":
