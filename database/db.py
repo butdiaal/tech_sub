@@ -310,20 +310,28 @@ def reset_password(login, password):
     connection.close()
 
 
-def update_user(user_id, login, password):
-    connection = get_db_connection()
-    cursor = connection.cursor()
+def update_user(user_id, new_login, new_password):
     try:
-        sql = "UPDATE users SET login = %s, password = %s WHERE user_id = %s"
-        cursor.execute(sql, (login, password, user_id))
-        connection.commit()
-        return True
+        conn = get_db_connection()
+        cursor = conn.cursor()
+
+        # Проверяем существует ли пользователь
+        cursor.execute("SELECT id FROM users WHERE id = %s", (user_id,))
+        if not cursor.fetchone():
+            return False
+
+        # Обновляем данные
+        cursor.execute(
+            "UPDATE users SET login = %s, password = %s WHERE id = %s",
+            (new_login, new_password, user_id))
+        conn.commit()
+        return cursor.rowcount > 0
     except Exception as e:
         print(f"Error updating user: {e}")
-        connection.rollback()
         return False
     finally:
-        connection.close()
+        if conn:
+            conn.close()
 
 
 def update_employee(emp_id, login, password, is_admin):
