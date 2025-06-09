@@ -220,6 +220,17 @@ class Employee_Ui_Form(object):
         font.setPointSize(10)
         self.answer_bt.setFont(font)
         self.answer_bt.setObjectName("answer_bt")
+        self.answer_bt.setStyleSheet("""
+                                           QPushButton {
+                                               background-color: #794E2B;
+                                               color: white;
+                                               border-radius: 5px;
+                                               font-size: 10,5pt;
+                                           }
+                                           QPushButton:hover {
+                                               background-color: #B0884C;
+                                           }
+                                            """)
         self.take_ticket_bt = QtWidgets.QPushButton(parent=Form)
         self.take_ticket_bt.setGeometry(QtCore.QRect(40, 60, 291, 51))
         font = QtGui.QFont()
@@ -227,6 +238,17 @@ class Employee_Ui_Form(object):
         font.setPointSize(10)
         self.take_ticket_bt.setFont(font)
         self.take_ticket_bt.setObjectName("take_ticket_bt")
+        self.take_ticket_bt.setStyleSheet("""
+                                           QPushButton {
+                                               background-color: #794E2B;
+                                               color: white;
+                                               border-radius: 5px;
+                                               font-size: 10,5pt;
+                                           }
+                                           QPushButton:hover {
+                                               background-color: #B0884C;
+                                           }
+                                            """)
         self.shown_login_lb = QtWidgets.QLabel(parent=Form)
         self.shown_login_lb.setGeometry(QtCore.QRect(300, 10, 131, 31))
         font = QtGui.QFont()
@@ -269,7 +291,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     Form = QtWidgets.QWidget()
-    ui = Ui_Form()
+    ui = Employee_Ui_Form()
     ui.setupUi(Form)
     Form.show()
     sys.exit(app.exec())
